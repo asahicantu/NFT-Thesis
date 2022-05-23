@@ -1,0 +1,445 @@
+%!TEX root = ./thesis.tex
+
+%% uis-thesis.sty
+%% Copyright 2021-2022 Hein Meling
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is Hein Meling.
+%
+% This work consists of the file uis-thesis.sty, test-uis-thesis.tex,
+% and example.tex.
+
+\ProvidesPackage{uis-thesis}[2021/12/17 v1.0 XeLaTeX Thesis Template for University of Stavanger]
+\typeout{(c) 2021-2022 Hein Meling}
+
+\RequirePackage{translations}
+\RequirePackage{geometry}  % use showframe option to debug
+\RequirePackage{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage{fontspec}
+\RequirePackage{setspace}
+\RequirePackage{adjustbox}
+\RequirePackage{calc}
+\RequirePackage{amssymb}
+
+% Set \homepath to allow checking if running on Overleaf
+\begingroup\endlinechar=-1\relax
+       \everyeof{\noexpand}%
+       \edef\x{\endgroup\def\noexpand\homepath{%
+         \@@input|"kpsewhich --var-value=HOME" }}\x
+\def\overleafhome{/tmp}
+
+\ifx\homepath\overleafhome
+  % Veranda is the currently the one used when running on Overleaf.
+  \newfontfamily\mainfont[Scale=0.9]{Verdana}
+  \newfontfamily\authorfont{Verdana Bold}
+  \newfontfamily\titlefont[Scale=1.5]{Verdana Bold}
+\else
+  % Tahoma is a Microsoft font and is available on macOS and Windows.
+  % See README.md for Linux font install instructions.
+  \newfontfamily\mainfont[Scale=0.9]{Tahoma}
+  \newfontfamily\authorfont{Tahoma Bold}
+  \newfontfamily\titlefont[Scale=1.5]{Tahoma Bold}
+\fi
+
+\newif\if@printlogo\@printlogofalse
+\DeclareOption{print}{\@printlogotrue}
+\DeclareOption*{\PackageWarning{uis-thesis}{Unknown ‘\CurrentOption’}}
+\ProcessOptions\relax
+
+% ----------------------------------------------------------------------------
+% Define UiS allowed front page colors and related variables and macros
+% ----------------------------------------------------------------------------
+\definecolor{uis-blue-dark}{cmyk}{1.00,0.90,0.00,0.60} % UiS blå mørk 282
+\definecolor{uis-blue-logo}{cmyk}{1.00,0.80,0.00,0.00} % UiS blå logofarge 286 (only for logo use)
+\definecolor{uis-blue-lite}{cmyk}{0.37,0.15,0.00,0.00} % UIS blå lys 658
+\definecolor{uis-oran-dark}{cmyk}{0.00,0.80,1.00,0.20} % UiS orange mørk 167
+\definecolor{uis-oran-medi}{cmyk}{0.00,0.73,1.00,0.00} % UiS orange medium 717
+\definecolor{uis-oran-lite}{cmyk}{0.00,0.50,1.00,0.00} % UiS orange lys 137
+\definecolor{uis-red-brown}{cmyk}{0.00,0.85,0.65,0.70} % UiS rødbrun 1817
+\definecolor{uis-beige-med}{cmyk}{0.00,0.23,0.33,0.40} % UiS beige 7530
+\definecolor{uis-warm-gray}{cmyk}{0.00,0.02,0.07,0.08} % UiS lysegrå WG1
+
+\def\uis@color@top{}
+\def\uis@color@bot{}
+\def\uis@color@text{}
+\def\uis@colors#1{
+  \ifcase#1\relax
+    \def\uis@color@top{uis-blue-lite}\def\uis@color@bot{uis-blue-dark}\def\uis@color@text{uis-blue-dark}   \or
+    \def\uis@color@top{uis-blue-lite}\def\uis@color@bot{uis-blue-dark}\def\uis@color@text{uis-blue-dark}   \or
+    \def\uis@color@top{uis-warm-gray}\def\uis@color@bot{uis-blue-dark}\def\uis@color@text{uis-blue-dark}   \or
+    \def\uis@color@top{uis-oran-lite}\def\uis@color@bot{uis-oran-dark}\def\uis@color@text{white}  \or
+    \def\uis@color@top{uis-blue-dark}\def\uis@color@bot{uis-blue-dark}\def\uis@color@text{white}  \or
+    \def\uis@color@top{uis-blue-lite}\def\uis@color@bot{uis-blue-lite}\def\uis@color@text{uis-blue-dark}   \or
+    \def\uis@color@top{uis-oran-dark}\def\uis@color@bot{uis-oran-dark}\def\uis@color@text{white}  \or
+    \def\uis@color@top{uis-oran-medi}\def\uis@color@bot{uis-oran-medi}\def\uis@color@text{white}  \or
+    \def\uis@color@top{uis-oran-lite}\def\uis@color@bot{uis-oran-lite}\def\uis@color@text{white}  \or
+    \def\uis@color@top{uis-red-brown}\def\uis@color@bot{uis-red-brown}\def\uis@color@text{white}  \or
+    \def\uis@color@top{white}\def\uis@color@bot{white}\def\uis@color@text{black}  \else
+    \PackageError{uis-thesis}{Unknown color theme ID ‘#1’}{Legal values: 0-8}
+  \fi
+}
+
+% ----------------------------------------------------------------------------
+% Declare variables and local macros
+% ----------------------------------------------------------------------------
+\def\uis@e{} % empty box to avoid blank space
+\if@printlogo
+  \def\uis@logofile{\ifcurrentbaselanguage{Norsk}{logo/uis-logo-no-print}{logo/uis-logo-en-print}}
+\else
+  \def\uis@logofile{\ifcurrentbaselanguage{Norsk}{logo/uis-logo-no-digital}{logo/uis-logo-en-digital}}
+\fi
+
+\newif\if@withphoto\@withphotofalse
+\def\uis@photo{}
+\def\photo#1{\@withphototrue\def\uis@photo{#1}}
+
+\def\uis@photocredit{}
+\def\photocredit#1{
+  \def\uis@photocredit{\vspace*{5mm}\uis@e\GetTranslation{photo}: #1 \par}
+}
+
+\newlength{\oH}
+\newlength{\oW}
+\newlength{\rH}
+\newlength{\rW}
+\newlength{\cH}
+\newlength{\cW}
+\newcommand\ClipImage[3]{% width, height, image
+\settototalheight{\oH}{\includegraphics{#3}}%
+\settowidth{\oW}{\includegraphics{#3}}%
+\setlength{\rH}{\oH * \ratio{#1}{\oW}}%
+\setlength{\rW}{\oW * \ratio{#2}{\oH}}%
+\ifdim\rH<#2{%
+    \setlength{\cW}{(\rW-#1)*\ratio{\oH}{#2}}%
+    \adjincludegraphics[height=#2,clip,trim=0 0 \cW{} 0]{#3}%
+}\else{%
+    \setlength{\cH}{(\rH-#2)*\ratio{\oW}{#1}}%
+    \adjincludegraphics[width=#1,clip,trim=0 \cH{} 0 0]{#3}%
+}\fi%
+}
+
+% Unless the \photo path is specified, the bottom part of the cover page
+% is set to an empty minipage due to the ~ in the else part.
+\def\uis@bottompart{%
+\if@withphoto{%
+    \hspace*{-2.2mm}%
+    \vspace*{-3mm}%
+    \ClipImage{1.017\textwidth}{1.03\bottomheight}{\uis@photo}%
+}%
+\else{~}%
+\fi%
+}
+
+\def\uis@authors{}
+\def\authors#1{\def\uis@authors{{\authorfont #1}}}
+
+\def\uis@isbn{}
+\def\isbn#1{\def\uis@isbn{{\mainfont ISBN: #1\\}}}
+\def\uis@issn{}
+\def\issn#1{\def\uis@issn{{\mainfont ISSN: #1\\}}}
+
+\def\uis@faculty{}
+\def\faculty#1{
+  \IfTranslation{\languagename}{#1}{
+    \def\uis@faculty{{\mainfont \GetTranslation{#1}}\par}
+  }{}
+}
+
+\def\uis@department{}
+\def\department#1{
+  \IfTranslation{\languagename}{#1}{
+    \def\uis@department{{\mainfont \GetTranslation{#1}}}
+  }{
+    \PackageError{uis-thesis}{Unknown department ‘#1’}{Legal departments: ide, imf, imbm, ikbm, ier, iep, isøp}
+  }
+}
+
+\def\uis@title{}
+\def\title#1{\def\uis@title{#1}}
+
+\newcommand{\reporttype}[2][]{
+\IfTranslation{\languagename}{#2}{}{
+  \PackageError{uis-thesis}{Unknown report type ‘#2’}{Legal report types: bachelor, master, phd, tr}
+}
+\def\uis@reportnum{#1}
+\ifx\uis@reportnum\empty
+  % bachelor or master thesis should specify \specialization
+  \def\uis@reportline{{\mainfont \GetTranslation{#2} - \uis@specialization{} - \uis@date{} \hfill \uis@restricted}}
+\else
+  % phd thesis or tech reports have numbers and ignore \specialization
+  \def\uis@reportline{{\mainfont \GetTranslation{#2} UiS no.~\uis@reportnum{} - \uis@date{} \hfill \uis@restricted}}
+\fi
+}
+
+\def\uis@specialization{}
+\def\specialization#1{
+  \IfTranslation{\languagename}{#1}{
+    \def\uis@specialization{{\mainfont \GetTranslation{#1}}}
+  }{
+    \PackageError{uis-thesis}{Unknown specialization ‘#1’}{Legal specializations: cs, ds, ee, medtek}
+  }
+}
+
+\def\uis@date{{\mainfont \ifcurrentbaselanguage{Norsk}{%
+  \ifcase\month\relax\or
+Januar\or Februar\or Mars\or April\or Mai\or Juni\or Juli\or August\or September\or Oktober\or November\or Desember
+\fi\ \number\year%
+}{%
+  \ifcase\month\relax\or
+January\or February\or March\or April\or May \or June\or July\or August\or September\or October\or November\or December
+\fi\ \number\year
+}}}
+
+% The \restricted command must only be used to indicate a report with restricted access
+\def\uis@restricted{}
+\def\restricted{\def\uis@restricted{%
+  \colorbox{\uis@color@text}{\textcolor{\uis@color@top}{{\mainfont \GetTranslation{access}}}}}
+}
+
+\def\uis@logobox{%
+\begin{minipage}[t]{0.15\textwidth}
+\vspace{0pt} % necessary for top alignment
+\includegraphics[width=\textwidth]{\uis@logofile}
+\end{minipage}
+}
+
+\def\uis@titlebox{%
+\begin{minipage}[t]{0.795\textwidth}
+\vspace{0pt} % necessary for top alignment
+\color{\uis@color@text}
+\MakeUppercase \uis@authors\par
+\MakeUppercase \uis@faculty         % no \par here since it can be excluded
+\MakeUppercase \uis@department\par
+\vspace*{-1mm}
+\rule{\textwidth}{3pt}\par
+\vspace*{3mm}
+\begin{spacing}{1.5}
+\raggedright \titlefont \uis@title\par
+\end{spacing}
+\vspace*{-2mm}
+\rule{\textwidth}{1pt}\par
+\vspace*{1mm}
+\uis@reportline{}
+\end{minipage}
+}
+
+\def\uis@backbox{%
+\begin{minipage}[t]{0.795\textwidth}
+\vspace{0pt} % necessary for top alignment
+\color{\uis@color@text}
+\mainfont
+4036 Stavanger                       \\
+Tel: +47 51 83 10 00                 \\
+\GetTranslation{email}: post@uis.no  \\
+www.uis.no                           \par
+\uis@photocredit  % no \par here since it can be excluded
+\vspace*{5mm}
+\uis@isbn
+\uis@issn
+\authorfont © \number\year\ \uis@authors\par
+\end{minipage}
+}
+
+% ----------------------------------------------------------------------------
+% Define translations
+% ----------------------------------------------------------------------------
+\DeclareTranslationFallback {uis}{University of Stavanger}
+\DeclareTranslation{English}{uis}{University of Stavanger}
+\DeclareTranslation{Norsk}  {uis}{Universitetet i Stavanger}
+
+\DeclareTranslationFallback {tn}{Faculty of Science and Technology}
+\DeclareTranslation{English}{tn}{Faculty of Science and Technology}
+\DeclareTranslation{Norsk}  {tn}{Det teknisk-naturvitskaplege fakultet}
+
+\DeclareTranslationFallback {ide}{Department of Electrical Engineering and Computer Science}
+\DeclareTranslation{English}{ide}{Department of Electrical Engineering and Computer Science}
+\DeclareTranslation{Norsk}  {ide}{Institutt for data- og elektroteknologi}
+
+\DeclareTranslationFallback {imf}{Department of Mathematics and Physics}
+\DeclareTranslation{English}{imf}{Department of Mathematics and Physics}
+\DeclareTranslation{Norsk}  {imf}{Institutt for matematikk og fysikk}
+
+\DeclareTranslationFallback {imbm}{Department of Mechanical and Structural Engineering and Materials Science}
+\DeclareTranslation{English}{imbm}{Department of Mechanical and Structural Engineering and Materials Science}
+\DeclareTranslation{Norsk}  {imbm}{Institutt for maskin, bygg og materialteknologi}
+
+\DeclareTranslationFallback {ikbm}{Department of Chemistry, Bioscience and Environmental Engineering}
+\DeclareTranslation{English}{ikbm}{Department of Chemistry, Bioscience and Environmental Engineering}
+\DeclareTranslation{Norsk}  {ikbm}{Institutt for kjemi, biovitenskap og miljøteknologi}
+
+\DeclareTranslationFallback {ier}{Department of Energy Resources}
+\DeclareTranslation{English}{ier}{Department of Energy Resources}
+\DeclareTranslation{Norsk}  {ier}{Institutt for energiressursar} %nynorsk?
+
+\DeclareTranslationFallback {iep}{Department of Energy and Petroleum Engineering}
+\DeclareTranslation{English}{iep}{Department of Energy and Petroleum Engineering}
+\DeclareTranslation{Norsk}  {iep}{Institutt for energi- og petroleumsteknologi}
+
+\DeclareTranslationFallback {isøp}{Department of Safety, Economics and Planning}
+\DeclareTranslation{English}{isøp}{Department of Safety, Economics and Planning}
+\DeclareTranslation{Norsk}  {isøp}{Institutt for sikkerheit, økonomi og planlegging} %nynorsk?
+
+\DeclareTranslationFallback {tr}{Technical Report}
+\DeclareTranslation{English}{tr}{Technical Report}
+\DeclareTranslation{Norsk}  {tr}{Teknisk rapport}
+\DeclareTranslationFallback {bachelor}{Bachelor's Thesis}
+\DeclareTranslation{English}{bachelor}{Bachelor's Thesis}
+\DeclareTranslation{Nynorsk}{bachelor}{Bacheloroppgåve}
+\DeclareTranslation{Norsk}  {bachelor}{Bacheloroppgave}
+\DeclareTranslationFallback {master}{Master's Thesis}
+\DeclareTranslation{English}{master}{Master's Thesis}
+\DeclareTranslation{Nynorsk}{master}{Masteroppgåve}
+\DeclareTranslation{Norsk}  {master}{Masteroppgave}
+\DeclareTranslationFallback {phd}{PhD Thesis}
+\DeclareTranslation{English}{phd}{PhD Thesis}
+\DeclareTranslation{Nynorsk}{phd}{Doktoroppgåve}
+\DeclareTranslation{Norsk}  {phd}{Doktoroppgave}
+\DeclareTranslationFallback {access}{Restricted Access}
+\DeclareTranslation{English}{access}{Restricted Access}
+\DeclareTranslation{Nynorsk}{access}{Begrensa tilgang}
+\DeclareTranslation{Norsk}  {access}{Begrenset tilgang}
+\DeclareTranslationFallback {email}{E-mail}
+\DeclareTranslation{English}{email}{E-mail}
+\DeclareTranslation{Norsk}  {email}{E-post}
+\DeclareTranslationFallback {photo}{Cover Photo}
+\DeclareTranslation{English}{photo}{Cover Photo}
+\DeclareTranslation{Norsk}  {photo}{Forside bilde}
+
+\DeclareTranslationFallback {cs}{Computer Science}
+\DeclareTranslation{English}{cs}{Computer Science}
+\DeclareTranslation{Norsk}  {cs}{Datateknologi}
+\DeclareTranslationFallback {ds}{Data Science}
+\DeclareTranslation{English}{ds}{Data Science}
+\DeclareTranslation{Norsk}  {ds}{Datavitenskap}
+\DeclareTranslationFallback {ee}{Electrical Engineering}
+\DeclareTranslation{English}{ee}{Electrical Engineering}
+\DeclareTranslation{Norsk}  {ee}{Elektroteknologi}
+\DeclareTranslationFallback {med}{Medical Technology}
+\DeclareTranslation{English}{med}{Medical Technology}
+\DeclareTranslation{Norsk}  {med}{Medisinsk teknologi}
+
+% ----------------------------------------------------------------------------
+% Predefined lengths
+% ----------------------------------------------------------------------------
+\newlength{\topheight}
+\newlength{\bottomheight}
+\newlength{\logoadjust}
+\newlength{\logosep}
+\newlength{\printsep}
+\if@printlogo
+  % align logo with colorbox for printing
+  \setlength{\logoadjust}{-3.2mm}
+  % \logosep when in print mode
+  \setlength{\printsep}{36mm}
+\else
+  % place logo at the page's edge
+  \setlength{\logoadjust}{-14mm}
+  % \logosep when in non-print mode
+  \setlength{\printsep}{25mm}
+\fi
+
+\def\uis@unicolor{
+  \setlength{\topheight}{0.911\paperheight}
+  \setlength{\bottomheight}{0pt}
+  \setlength{\logosep}{\printsep}
+  \def\uis@par{\par}
+}
+
+\def\uis@splitcolor{
+  \setlength{\topheight}{0.34\paperheight}
+  \setlength{\bottomheight}{0.575\paperheight}
+  \setlength{\logosep}{8mm}
+  \def\uis@par{}       % no \par after logo in this mode
+}
+
+\def\uis@photocover{\uis@splitcolor} % same as splitcolor
+
+% ----------------------------------------------------------------------------
+% Main macros
+% ----------------------------------------------------------------------------
+\newcommand{\uiscover}[1]{
+\uis@colors{#1}              % select color scheme
+\if@withphoto
+  \uis@photocover
+\else
+  \ifnum #1 > 3 \uis@unicolor
+  \else         \uis@splitcolor
+  \fi
+\fi
+\begin{titlepage}
+\newgeometry{margin=10mm}    % defines the geometry for the titlepage
+{\setlength{\parindent}{0cm} % turn off indent in this group
+\colorbox{\uis@color@top}{
+\begin{minipage}[l][\topheight][t]{.984\textwidth}
+\vspace*{17mm}
+\hspace*{\logoadjust}
+\uis@logobox\uis@par
+\hspace*{\logosep}
+\uis@titlebox
+\end{minipage}}\\[-2pt]
+\colorbox{\uis@color@bot}{
+\begin{minipage}[l][\bottomheight][b]{.984\textwidth}
+\uis@bottompart
+\end{minipage}}}
+\end{titlepage}
+\restoregeometry % restores the geometry
+}
+
+\newcommand{\uisbackcover}{
+\uis@unicolor
+% \begin{titlepage}
+\newgeometry{margin=10mm}    % defines the geometry for the titlepage
+{\setlength{\parindent}{0cm} % turn off indent in this group
+\colorbox{\uis@color@top}{
+\begin{minipage}[l][\topheight][t]{.984\textwidth}
+\vspace*{17mm}
+\hspace*{\logoadjust}
+\uis@logobox\uis@par
+\hspace*{\logosep}
+\uis@backbox
+\end{minipage}}}
+% \end{titlepage}
+\restoregeometry % restores the geometry
+}
+
+\newcommand\acknowledgements{
+ \chapter*{Acknowledgements}
+ \addcontentsline{toc}{chapter}{Acknowledgements}
+}
+\@ifclassloaded{book}{%
+\newcommand\abstract{
+ \chapter*{Abstract}
+ \addcontentsline{toc}{chapter}{Abstract}
+}
+}{}
+
+\newcommand{\declaration}{
+\topskip0pt
+\vspace*{\fill}
+% remove any \\ specified in \title
+\def\\{\relax\ifhmode\unskip\fi\space\ignorespaces}
+I, \uis@authors, declare that this thesis titled, ``\uis@title'' and the work presented in it are my own. I confirm that:
+
+\begin{itemize}
+\renewcommand{\labelitemi}{\scriptsize$\blacksquare$}
+\item This work was done wholly or mainly while in candidature for a master's degree at the \GetTranslation{uis}.
+
+\item Where I have consulted the published work of others, this is always clearly attributed.
+
+\item Where I have quoted from the work of others, the source is always given. With the exception of such quotations, this thesis is entirely my own work.
+
+\item I have acknowledged all main sources of help.
+\end{itemize}
+\vspace*{\fill}
+\newpage
+}

@@ -1,0 +1,67 @@
+version: "3"
+# extension fields
+x-base: &base
+  image: ipfs/go-ipfs:latest
+  networks:
+    - test
+  environment:
+    LIBP2P_FORCE_PNET: "1"
+    SWARM_PEER:
+  volumes:
+    - ./ipfs/swarm.key:/data/ipfs/swarm.key:ro
+    - ./ipfs/init.sh:/usr/local/bin/start_ipfs:ro  
+
+networks:
+  test:
+    # name: ${COMPOSE_NETWORK_NAME}
+    name: test
+
+services:
+  ipfs_bootstrap_node:
+    container_name: ipfs_bootstrap_node
+    hostname: ipfs_bootstrap_node
+    <<: *base
+    expose:
+      - 4001
+      - 5001
+    ports:
+      - "4001:4001"
+      - "5001:5001"
+
+  ipfs_node_2:
+    container_name: ipfs_node_2
+    hostname: ipfs_node_2
+    <<: *base
+    expose:
+      - 4002
+      - 5002
+    ports:
+      - "4002:4001"
+      - "5002:5001"
+  
+  ipfs_node_3:
+    container_name: ipfs_node_3
+    hostname: ipfs_node_3
+    <<: *base
+    expose:
+      - 4003
+      - 5003
+    ports:
+      - "4003:4001"
+      - "5003:5001"
+
+  ipfs_dashboard:
+    container_name: ipfs_dashboard
+    hostname: ipfs_dashboard
+    networks:
+      - test
+    build:
+      dockerfile: ipfs/Dockerfile_Dashboard
+    depends_on:
+      - bootstrap_node
+      - ipfs_node_2
+      - ipfs_node_3
+    expose:
+      - 8080
+    ports:
+      - "8080:8080"

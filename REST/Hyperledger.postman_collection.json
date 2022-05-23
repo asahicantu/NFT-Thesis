@@ -1,0 +1,1120 @@
+{
+	"info": {
+		"_postman_id": "2164d358-8155-4775-8eb1-cee96a579e42",
+		"name": "Hyperledger",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Root",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"path\": \"wallets\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{adminUrl}}",
+							"host": [
+								"{{adminUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "registerOrganization1",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "///wsl.localhost/Ubuntu/home/asahi/hyp-nft/network/organizations/peerOrganizations/org1.example.com/connection-org1.json"
+							}
+						},
+						"url": {
+							"raw": "{{adminUrl}}/register",
+							"host": [
+								"{{adminUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "registerOrganization2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "///wsl.localhost/Ubuntu/home/asahi/hyp-nft/network/organizations/peerOrganizations/org2.example.com/connection-org2.json"
+							}
+						},
+						"url": {
+							"raw": "{{adminUrl}}/register",
+							"host": [
+								"{{adminUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "enroll Org1.Minter",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\":\"Org1\",\r\n    \"name\":\"minter\",\r\n    \"affilitation\":\"org1.department1\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{adminUrl}}/enroll",
+							"host": [
+								"{{adminUrl}}"
+							],
+							"path": [
+								"enroll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "enroll Org2.Recipient",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\":\"Org2\",\r\n    \"name\":\"recipient\",\r\n    \"affilitation\":\"org2.department1\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{adminUrl}}/enroll",
+							"host": [
+								"{{adminUrl}}"
+							],
+							"path": [
+								"enroll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "enroll Org1.Operator",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\":\"Org1\",\r\n    \"name\":\"operator\",\r\n    \"affilitation\":\"org1.department2\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{adminUrl}}/enroll",
+							"host": [
+								"{{adminUrl}}"
+							],
+							"path": [
+								"enroll"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "NFT",
+			"item": [
+				{
+					"name": "Root",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"path\": \"wallets\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}",
+							"host": [
+								"{{nftUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ClientAccountId_Org1.Minter",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"ClientAccountID\",\r\n    \"params\":\r\n    {\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ClientAccountId_Org1.Operator",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"ClientAccountID\",\r\n    \"params\":\r\n    {\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ClientAccountId_Org2.Consumer",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"ClientAccountID\",\r\n    \"params\":\r\n    {\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "mint",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"params\":\r\n    {\r\n            \"id\": \"11\",\r\n            \"fileformat\": \"text\",\r\n            \"owner\": \"minter\",\r\n            \"organization\": \"Org1\",\r\n            \"filename\":\"hello.txt\"\r\n\r\n    },\r\n    \"data\":\"hello world\"\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/mint",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"mint"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TokenURI",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"TokenURI\",\r\n    \"params\":\r\n    {\r\n        \"tokenId\":\"9\"\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"Token\",\r\n    \"params\":\r\n    {\r\n        \"tokenId\":\"10\"\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TransferFrom",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"TransferFrom\",\r\n    \"params\":\r\n    {\r\n        \"from\":\"x509::/OU=org1/OU=client/OU=department1/CN=minter::/C=US/ST=North Carolina/L=Durham/O=org1.example.com/CN=ca.org1.example.com\",\r\n        \"to\":\"x509::/OU=org2/OU=client/OU=department1/CN=recipient::/C=UK/ST=Hampshire/L=Hursley/O=org2.example.com/CN=ca.org2.example.com\"\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approve",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"Approve\",\r\n    \"params\":\r\n    {\r\n        \"approved\":\"x509::/OU=org1/OU=client/OU=department2/CN=operator::/C=US/ST=North Carolina/L=Durham/O=org1.example.com/CN=ca.org1.example.com\",\r\n        \"tokenId\":\"0\"\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetApproved",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"Symbol\",\r\n    \"params\":\r\n    {\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ClientAccountBalanceOrg1",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"Symbol\",\r\n    \"params\":\r\n    {\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ClientAccountBalanceOrg2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"Symbol\",\r\n    \"params\":\r\n    {\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TotalSupply",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body is correct\", function () {\r",
+									"    pm.response;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org2\",\r\n    \"userId\":\"recipient\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"TotalSupply\",\r\n    \"params\":\r\n    {\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "balance",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"BalanceOf\",\r\n    \"params\":\r\n    {\r\n        \"p1\":\"x509::/OU=org1/OU=client/OU=department1/CN=minter::/C=US/ST=North Carolina/L=Durham/O=org1.example.com/CN=ca.org1.example.com\"\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OwnerOf",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"OwnerOf\",\r\n    \"params\":\r\n    {\r\n        \"owner\":\"9\"\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetApproved",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"GetApproved\",\r\n    \"params\":\r\n    {\r\n        \"owner\":\"9\"\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Name",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"Name\",\r\n    \"params\":\r\n    {\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TotalSupplyCount",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"TotalSupplyCount\",\r\n    \"params\":\r\n    {\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetTokenName",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"SetOption\",\r\n    \"params\":\r\n    {\r\n        \"name\":\"PRIME_NFT\",\r\n        \"symbol\": \"PRM\"\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Symbol",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"Symbol\",\r\n    \"params\":\r\n    {\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllResults",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"GetAllResults\",\r\n    \"params\":\r\n    {\r\n        \"isHistory\":\"true\",\r\n        \"owner\":\"minter\"\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ReadAsset",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"GetAllResults\",\r\n    \"params\":\r\n    {\r\n        \"isHistory\":\"true\",\r\n        \"owner\":\"minter\"\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "IPFS",
+			"item": [
+				{
+					"name": "Root",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Abspath",
+								"value": "/orion/file.txt",
+								"type": "text"
+							},
+							{
+								"key": "Content-Disposition",
+								"value": "form-data",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "test",
+									"contentType": "application/x-directory",
+									"type": "text"
+								},
+								{
+									"key": "filename",
+									"value": "foldername",
+									"contentType": "application/x-directory",
+									"type": "text"
+								},
+								{
+									"key": "path",
+									"value": "txt",
+									"contentType": "application/x-directory",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ipfsUrl}}",
+							"host": [
+								"{{ipfsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddFile",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Abspath",
+								"value": "/orion/file.txt",
+								"type": "text"
+							},
+							{
+								"key": "Content-Disposition",
+								"value": "form-data",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "This is the first text file chuncked by blocks in IPS\r\nThis is the first text file chuncked by blocks in IPS\r\nThis is the first text file chuncked by blocks in IPS\r\nThis is the first text file chuncked by blocks in IPS\r\nThis is the first text file chuncked by blocks in IPSThis is the first text file chuncked by blocks in IPS\r\nThis is the first text file chuncked by blocks in IPS\r\nThis is the first text file chuncked by blocks in IPS\r\nThis is the first text file chuncked by blocks in IPS\r\nThis is the first text file chuncked by blocks in IPS\r\nThis is the first text file chuncked by blocks in IPS\r\nThis is the first text file chuncked by blocks in IPS\r\nThis is the first text file chuncked by blocks in IPS\r\nThis is the first text file chuncked by blocks in IPS\r\nThis is the first text file chuncked by blocks in IPS\r\nThis is the first text file chuncked by blocks in IPS",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ipfsUrl}}/add/file?path=hello.txt",
+							"host": [
+								"{{ipfsUrl}}"
+							],
+							"path": [
+								"add",
+								"file"
+							],
+							"query": [
+								{
+									"key": "path",
+									"value": "hello.txt"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Abspath",
+								"value": "/orion/file.txt",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Disposition",
+								"value": "form-data",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ipfsUrl}}/get?path=QmUDYGpYLKxxQ3ZUE2x8oNoo3hku362oUHN8ixnbVfXpgS",
+							"host": [
+								"{{ipfsUrl}}"
+							],
+							"path": [
+								"get"
+							],
+							"query": [
+								{
+									"key": "path",
+									"value": "QmUDYGpYLKxxQ3ZUE2x8oNoo3hku362oUHN8ixnbVfXpgS"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Abspath",
+								"value": "/orion/file.txt",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Disposition",
+								"value": "form-data",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ipfsUrl}}/cat?path=QmcJw6x4bQr7oFnVnF6i8SLcJvhXjaxWvj54FYXmZ4Ct6p",
+							"host": [
+								"{{ipfsUrl}}"
+							],
+							"path": [
+								"cat"
+							],
+							"query": [
+								{
+									"key": "path",
+									"value": "QmcJw6x4bQr7oFnVnF6i8SLcJvhXjaxWvj54FYXmZ4Ct6p"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Peer",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Abspath",
+								"value": "/orion/file.txt",
+								"type": "text"
+							},
+							{
+								"key": "Content-Disposition",
+								"value": "form-data",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "test",
+									"contentType": "application/x-directory",
+									"type": "text"
+								},
+								{
+									"key": "filename",
+									"value": "foldername",
+									"contentType": "application/x-directory",
+									"type": "text"
+								},
+								{
+									"key": "path",
+									"value": "txt",
+									"contentType": "application/x-directory",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ipfsUrl}}/peer",
+							"host": [
+								"{{ipfsUrl}}"
+							],
+							"path": [
+								"peer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Abspath",
+								"value": "/orion/file.txt",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Disposition",
+								"value": "form-data",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ipfsUrl}}/list?path=hello.txt",
+							"host": [
+								"{{ipfsUrl}}"
+							],
+							"path": [
+								"list"
+							],
+							"query": [
+								{
+									"key": "path",
+									"value": "hello.txt"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "rootUrl",
+			"value": "http://localhost:3556/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "nftUrl",
+			"value": "{{rootUrl}}/nft",
+			"type": "string"
+		},
+		{
+			"key": "adminUrl",
+			"value": "{{rootUrl}}/admin",
+			"type": "string"
+		},
+		{
+			"key": "ipfsUrl",
+			"value": "{{rootUrl}}/ipfs",
+			"type": "string"
+		}
+	]
+}

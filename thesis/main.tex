@@ -1,0 +1,79 @@
+\documentclass[12pt]{report}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{uis-thesis} % Options: print
+\usepackage{natbib}
+\documentclass{article}
+\usepackage[colorlinks]{hyperref}
+\usepackage[printonlyused,withpage]{acronym}
+
+
+% UiS recommends Georgia for the body text, but you are free to use another
+% font for the body text; if you want to use another font just remove this line.
+\setmainfont{Georgia}
+
+% Optional: specify path to photo
+%\photo{photos/ide}
+% Optional: credit the photographer; required for many photos; you must check
+%\photocredit{Hein Meling}
+\title{NFT as a proof of Digital Ownership-reward system integrated to a Secure Distributed Computing system Managed by Blockchain}
+\authors{Asahi Cantu}
+\department{ide}
+\date{January 2022}
+
+% Optional: uncomment if you want to display faculty name as well
+\faculty{tn}
+% Allowed values: bachelor, master, phd, tr
+\reporttype{master}
+% \reporttype[404]{phd}
+% Allowed values: cs, ds, ee, medtek
+\specialization{cs}
+% Use only for phd thesis
+% \isbn{000-00-0000-000-0}
+% \issn{0000-0000}
+% Uncomment only if your thesis has been granted restricted access
+% \restricted
+
+%-----------------------------------------------------------------
+\begin{document}
+% Values: 1-9 select different color schemes, 10 for draft versions (to save ink)
+\uiscover{4}
+\frontmatter
+    \pagestyle{empty}
+    \declaration
+    
+    \input{frontmatter/quote}
+    \input{frontmatter/abstract}
+    \input{frontmatter/ack}
+
+    \tableofcontents
+
+    \input{frontmatter/abbrev}
+    % \input{frontmatter/symbols}
+%-----------------------------------------------------------------
+\mainmatter	  % Begin normal, numeric (1,2,3...) page numbering
+    \input{chapters/00-intro}
+    \input{chapters/01-related}
+    \input{chapters/02-approach}
+    \input{chapters/03-eval}
+    \input{chapters/04-discussion}
+    \input{chapters/05-conclusions}
+
+%-----------------------------------------------------------------
+% Now begin the Appendices, including them as separate files
+
+% \listoffigures
+% \listoftables
+
+\appendix
+%\input{appendices/instructions}
+
+%-----------------------------------------------------------------
+ \backmatter
+     \label{Bibliography}
+     \lhead{\emph{Bibliography}}  % Change the left side page header to "Bibliography"
+      \bibliographystyle{unsrtnat}  % Use the "unsrtnat" BibTeX style for formatting the Bibliography
+      \bibliography{Bibliography}  % The references (bibliography) information are stored in the file named "Bibliography.bib"
+
+\uisbackcover
+\end{document}
