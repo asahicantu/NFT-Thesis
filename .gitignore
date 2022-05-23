@@ -1,0 +1,8 @@
+node_modules
+network/bin/
+network/channel-artifacts/
+network/organizations/
+network/log.txt
+network/*.gz
+wallet/
+.vscode
