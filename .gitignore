@@ -6,3 +6,4 @@ network/log.txt
 network/*.gz
 wallet/
 .vscode
+.bkp
