@@ -9,22 +9,31 @@ import { Guid } from 'guid-typescript'
 import { ClientContext } from '../context/clientContext'
 import './MintNFTModal.css'
 import axios from "axios";
+import CorporateFare from '@mui/icons-material/CorporateFare';
 
 export default function MintNFTModal() {
-    const [nftToken, setNftToken] = React.useState<any>();
-    const { loading, setLoading, error, setError, onMintToken, openMintNFTModal, setOpenMintNFTModal } = React.useContext(ClientContext) as ClientContextType
+    const [fileName, setFileName] = React.useState<string>();
+    const { loading, setLoading, error, setError, onMintToken, openRegisterOrganizationModal, setOpenRegisterOrganizationModal } = React.useContext(ClientContext) as ClientContextType
     const style = {
         position: 'absolute' as 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
+        width: 500,
         color:'white',
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
     };
+
+    const handleFileClick = (e: React.SyntheticEvent)=>{
+        const inputFile:any = e.target as any;
+        if(inputFile && inputFile.files){
+            const files = inputFile.files as FileList
+            setFileName(files[0].name)
+        }
+    }
     const handleSubmission = (e: React.SyntheticEvent) => {
         e.preventDefault()
         const target = e.target as typeof e.target & {
@@ -57,10 +66,9 @@ export default function MintNFTModal() {
         reader.onload = function (e: any) {
             nftContent.data = e.target.result;
             console.log(nftContent);
-            axios.post("http://localhost:3556/api/v1/nft/mint", nftContent)
+            axios.post("http://localhost:3556/admin/register", nftContent)
                 .then((response) => {
                     console.log(response);
-                    setNftToken(response.data);
                 }
                 ).catch((reason: any) => {
                     console.log(reason);
@@ -75,8 +83,8 @@ export default function MintNFTModal() {
     return (
 
         <Modal
-            open={openMintNFTModal}
-            onClose={() => setOpenMintNFTModal(false)}
+            open={openRegisterOrganizationModal}
+            onClose={() => setOpenRegisterOrganizationModal(false)}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
@@ -87,50 +95,22 @@ export default function MintNFTModal() {
                     spacing={3}
                     onSubmit={(e: React.SyntheticEvent) => { handleSubmission(e) }}>
                     <Typography variant='h4'>
-                        Mint an NFT Data Token
+                        <CorporateFare/> Register organization
                     </Typography>
-                    <TextField
-                        key="txtOrganization"
-                        id="txtOrganization"
-                        name="organization"
-                        label="Organization"
-                        defaultValue="Org1"
-                        helperText="Organization name"
-                        variant="standard"
-                        required={true}
-                    />
-                    <TextField
-                        id="txtOwner"
-                        name="owner"
-                        label="Owner"
-                        defaultValue="minter"
-                        helperText="Name of the owner (previously registered in the ledger)"
-                        variant="standard"
-                        required={true}
-                    />
-                    <FormControl fullWidth required={true}>
-                        <InputLabel id="lblFileFormat">File Format</InputLabel>
-                        <Select
-                            labelId="lblFileFormat"
-                            id="txtFileFormat"
-                            name="fileFormat"
-                            defaultValue={'txt'}
-                            label="File Type"
-                        >
-                            <MenuItem key="FormatTxt" value={"txt"}>Text</MenuItem>
-                            <MenuItem key="FormatImage" value={"image"}>Image</MenuItem>
-                            <MenuItem key="FormatFolder" value={"folder"}>Folder</MenuItem>
-                            <MenuItem key="FormatBin" value={"bin"}>Other binary</MenuItem>
-                        </Select>
-                    </FormControl>
+                    <Typography>
+                        Use a connection profile file to register an organization <br/>
+                        Select the '.json' file of the organization you want to register. <br/>
+                        File is normally located in path: 'network/organizations/peerOrganizations/org[organization number].example.com'/connection-org1.json
+                    </Typography>
                     <Stack direction="row" alignItems="baseline">
-                        {/* <Input inputProps={ariaLabel} value={file.name} placeholder="Click to select a file" readOnly={true} /> */}
                         <label className="custom-file-upload">
-                            <input type="file" name="file" multiple />
+                            <input type="file" name="file" multiple={false} onChange={(e:any)=>{handleFileClick(e)}}/>
                             <Typography color='white'>
-                                ...
+                                Select file...
                             </Typography>
                         </label>
+                        <Typography> </Typography>
+                        <Typography>{fileName}</Typography>
                     </Stack>
                     <Button type="submit" variant="contained">Submit</Button>
                 </Stack >

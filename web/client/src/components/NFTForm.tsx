@@ -75,7 +75,6 @@ export default function NFTForm() {
     }
     return (
         <Box>
-
             <Stack
                 direction="column"
                 component="form"

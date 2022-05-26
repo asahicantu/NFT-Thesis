@@ -7,6 +7,8 @@ import { themeOptions } from './@types/theme'
 import {ClientProvider} from './context/clientContext'
 import Box from '@mui/material/Box';
 import './App.css'
+import MintNFTModal from './components/MintNFTModal';
+import RegisterOrganizationModal from './components/RegisterOrganizationModal';
 export default function App() {
     const theme = createTheme(themeOptions)
     return (
@@ -15,7 +17,9 @@ export default function App() {
                 <Box sx={{ flexGrow: 1 }}>
                     <Loader/>
                     <Header />
-                    <NFTForm />
+                    <MintNFTModal/>
+                    <RegisterOrganizationModal />
+                    {/* <NFTForm /> */}
                 </Box>
             </ClientProvider>
         </ThemeProvider>
