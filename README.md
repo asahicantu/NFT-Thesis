@@ -21,19 +21,30 @@ Thus, the project aims to show the potential a solution like this has to be impl
 This thesis project emerged by the need to overcome security threats and data breaches as well as to explore a way to share and contribute in a commonly shared data repository similar to what current oil companies use in Norway.
 
 ## Technologies
-### Hyperledger
-### IPFS
-### ExpressJS
-### Typescript
-### React
-### Docker Containers
+### [Hyperledger Fabric 2.2](https://hyperledger-fabric.readthedocs.io/en/release-2.2/)
+Open-source enterprise blockchain technology, with particular permissioned capabilities, authorization and consensus.
+### [IPFS](https://ipfs.io/#how)
+Decentralized file storage system used content-addressed capabilities.
+### [ExpressJS](https://expressjs.com)
+Backend web application framework for Node.js designed for building web applications and APIs.
+### [Typescript](https://www.typescriptlang.org)
+A programming language superset of JavaScript developed and maintained by Microsoft.
+### [React](https://reactjs.org)
+Open-source front-end JavaScript library for building user interfaces based on UI components.
+### [Docker](https://www.docker.com)
+Set of platform as a service products that use OS-level virtualization to deliver software in packages called containers.
 
 ## System Components
+![Architecture components](resources/Hyperledger-Technologies.png)
 ### Hyperledger Fabric
-#### Chaincode
+### Chaincode
+  * Uses [NFT (Erc-721)](https://eips.ethereum.org/EIPS/eip-721) smart contract extension to allow data management
 ### Private IPFS Network
+It is a private network that controls content addressed files and shares the files among different nodes
 ### Backend
+Server application that communicates with the hyperledger network and extends its functionality by an API.
 ### Frontend
+User interface that enables organizations to issue NFT's by uploading data files.
 
 # Repository Structure
 ## network
@@ -89,4 +100,12 @@ Execute the following command to create all the network infrastructure in docker
 This process will take some minutes to finish running, what it does:
 1. Invokes Docker-compose commands to create the docker containers for:
   1. Hyperledger fabric 
-### 
+  2. Hyperledger explorer and explorerdb (Interface to visualize the blocks in the Ledger)
+  3. Hyperledger orderer (Orderer node)
+  4. Peer nodes (Peer and CA Orderers for organizations 1 and 2)
+  5. IPFS nodes (Bootstrap, and 2 nodes for private network)
+### 5. Run web application
+1. It is recommended to use two terminals and change to directory `cd web`
+2. Execute: `cd server && ./npm run start` this will execute ExpressJS Web Server
+3. In the second terminal execute `cd client && ./npm run start` this will execute React Web App
+4. Enroll Organization 1
