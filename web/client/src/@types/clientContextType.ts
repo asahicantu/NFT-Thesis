@@ -6,12 +6,14 @@ type ClientContextType = {
     error: string,
     setError: Dispatch<SetStateAction<string>>
     onMintToken(): void,
-    openMintNFTModal:boolean,
-    setOpenMintNFTModal: Dispatch<SetStateAction<boolean>>,
-    openRegisterOrganizationModal: boolean,
-    setOpenRegisterOrganizationModal: Dispatch<SetStateAction<boolean>>,
-    openEnrollUserModal: boolean,
-    setOpenEnrollUserModal: Dispatch<SetStateAction<boolean>>
+    openMain: boolean,
+    setOpenMain: Dispatch<SetStateAction<boolean>>,
+    openMintNFT:boolean,
+    setOpenMintNFT: Dispatch<SetStateAction<boolean>>,
+    openRegisterOrganization: boolean,
+    setOpenRegisterOrganization: Dispatch<SetStateAction<boolean>>,
+    openEnrollUser: boolean,
+    setOpenEnrollUser: Dispatch<SetStateAction<boolean>>
 }
 
 export type { ClientContextType }

@@ -19,8 +19,9 @@ import { PersonAdd } from '@mui/icons-material';
 import Icon from "@material-ui/core/Icon";
 
 export default function Header() {
-    const { setOpenRegisterOrganizationModal, setOpenEnrollUserModal, setOpenMintNFTModal } = React.useContext(ClientContext) as ClientContextType
+    const { setOpenMain, setOpenRegisterOrganization, setOpenEnrollUser, setOpenMintNFT } = React.useContext(ClientContext) as ClientContextType
     const pages: Array<KeyVal<string>> = [
+        { Key: 'MAIN', Val: 'Main', Icon: CorporateFare },
         { Key: 'REGISTER', Val: 'Register Organization', Icon: CorporateFare },
         { Key: 'ENROLL', Val: 'Enroll User', Icon: PersonAdd },
         { Key: 'MINT', Val: 'Mint NFT', Icon: UploadFile }
@@ -38,14 +39,29 @@ export default function Header() {
 
     const handleNavMenu = (key: string) => {
         switch (key) {
+            case 'MAIN':
+                setOpenMain(true)
+                setOpenRegisterOrganization(false)
+                setOpenEnrollUser(false)
+                setOpenMintNFT(false)
+                break
             case 'REGISTER':
-                setOpenRegisterOrganizationModal(true)
+                setOpenMain(false)
+                setOpenRegisterOrganization(true)
+                setOpenEnrollUser(false)
+                setOpenMintNFT(false)
                 break
             case 'ENROLL':
-                setOpenEnrollUserModal(true)
+                setOpenMain(false)
+                setOpenRegisterOrganization(false)
+                setOpenEnrollUser(true)
+                setOpenMintNFT(false)
                 break
             case 'MINT':
-                setOpenMintNFTModal(true)
+                setOpenMain(false)
+                setOpenRegisterOrganization(false)
+                setOpenEnrollUser(false)
+                setOpenMintNFT(true)
                 break
         }
         handleCloseNavMenu();

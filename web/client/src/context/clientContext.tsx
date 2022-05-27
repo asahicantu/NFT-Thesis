@@ -5,9 +5,10 @@ const ClientContext = React.createContext<ClientContextType | null>(null)
 function ClientProvider(props: { children: ReactNode }): ReactElement {
     const [loading, setLoading ] = React.useState(false)
     const [error, setError] = React.useState('')
-    const [openMintNFTModal, setOpenMintNFTModal] = React.useState(false)
-    const [openRegisterOrganizationModal, setOpenRegisterOrganizationModal] = React.useState(false)
-    const [openEnrollUserModal, setOpenEnrollUserModal] = React.useState(false)
+    const [openMain, setOpenMain] = React.useState(false)
+    const [openMintNFT, setOpenMintNFT] = React.useState(false)
+    const [openRegisterOrganization, setOpenRegisterOrganization] = React.useState(false)
+    const [openEnrollUser, setOpenEnrollUser] = React.useState(false)
 
     const appName = 'HYP_NFT'
 
@@ -22,13 +23,15 @@ function ClientProvider(props: { children: ReactNode }): ReactElement {
                 setLoading,
                 error,
                 setError,
+                openMain,
+                setOpenMain,
                 onMintToken,
-                openMintNFTModal,
-                setOpenMintNFTModal,
-                openRegisterOrganizationModal,
-                setOpenRegisterOrganizationModal,
-                openEnrollUserModal,
-                setOpenEnrollUserModal
+                openMintNFT: openMintNFT,
+                setOpenMintNFT: setOpenMintNFT,
+                openRegisterOrganization: openRegisterOrganization,
+                setOpenRegisterOrganization: setOpenRegisterOrganization,
+                openEnrollUser: openEnrollUser,
+                setOpenEnrollUser: setOpenEnrollUser
             }}>
             {props.children}
         </ClientContext.Provider>
