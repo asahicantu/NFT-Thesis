@@ -1,30 +1,23 @@
-import React, { ReactNode, Fragment } from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react'
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { ClientContextType } from '../@types/clientContextType'
-import moment from 'moment'
-import Modal from '@mui/material/Modal'
 import Stack from '@mui/material/Stack'
-import { Guid } from 'guid-typescript'
 import { ClientContext } from '../context/clientContext'
-import './MintNFT.css'
-import axios from "axios";
-
+import axios, { AxiosRequestConfig } from "axios";
+import style from '../@types/panelStyle'
+import UploadFile from '@mui/icons-material/UploadFile';
 export default function MintNFT() {
+    const [fileName, setFileName] = React.useState<string>();
     const [nftToken, setNftToken] = React.useState<any>();
-    const { loading, setLoading, error, setError, onMintToken, openMintNFT: openMintNFTModal, setOpenMintNFT: setOpenMintNFTModal } = React.useContext(ClientContext) as ClientContextType
-    const style = {
-        position: 'absolute' as 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        color: 'white',
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-    };
+    const { setLoading, onMintToken } = React.useContext(ClientContext) as ClientContextType
+
+    const handleFileClick = (e: React.SyntheticEvent) => {
+        const inputFile: any = e.target as any;
+        if (inputFile && inputFile.files) {
+            const files = inputFile.files as FileList
+            setFileName(files[0].name)
+        }
+    }
     const handleSubmission = (e: React.SyntheticEvent) => {
         e.preventDefault()
         const target = e.target as typeof e.target & {
@@ -57,14 +50,21 @@ export default function MintNFT() {
         reader.onload = function (e: any) {
             nftContent.data = e.target.result;
             console.log(nftContent);
-            axios.post("http://localhost:3556/api/v1/nft/mint", nftContent)
-                .then((response) => {
-                    console.log(response);
-                    setNftToken(response.data);
+            const config: AxiosRequestConfig = {
+                baseURL: process.env.REACT_APP_BASE_URL as string,
+                headers: {
+                    'Accept': '*/*',
+                    'Content-type': 'application/json',
                 }
-                ).catch((reason: any) => {
-                    console.log(reason);
-                });
+            }
+            axios.post('nft/mint', nftContent,config)
+            .then((response) => {
+                console.log(response);
+                setNftToken(response.data);
+            }
+            ).catch((reason: any) => {
+                console.log(reason);
+            });
         };
         reader.onerror = function (e) {
             // error occurred
@@ -80,7 +80,7 @@ export default function MintNFT() {
                 spacing={3}
                 onSubmit={(e: React.SyntheticEvent) => { handleSubmission(e) }}>
                 <Typography variant='h4'>
-                    Mint an NFT Data Token
+                    <UploadFile/> Mint an NFT Data Token
                 </Typography>
                 <TextField
                     key="txtOrganization"
@@ -119,11 +119,10 @@ export default function MintNFT() {
                 <Stack direction="row" alignItems="baseline">
                     {/* <Input inputProps={ariaLabel} value={file.name} placeholder="Click to select a file" readOnly={true} /> */}
                     <label className="custom-file-upload">
-                        <input type="file" name="file" multiple />
-                        <Typography color='white'>
-                            ...
-                        </Typography>
+                        <input type="file" name="file" multiple onChange={(e: any) => { handleFileClick(e) }}/>
+                        <Typography color='white'>...</Typography>
                     </label>
+                    <Typography>{fileName}</Typography>
                 </Stack>
                 <Button type="submit" variant="contained">Submit</Button>
             </Stack >

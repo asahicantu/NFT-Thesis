@@ -1,0 +1,3 @@
+import { AlertColor } from '@mui/material'
+type LogMessage = (message: string, messageType: AlertColor) => void;
+export type {LogMessage}

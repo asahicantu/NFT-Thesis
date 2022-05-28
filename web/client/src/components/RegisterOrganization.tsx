@@ -1,30 +1,15 @@
-import React, { ReactNode, Fragment } from 'react'
-import ReactDOM from 'react-dom'
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
-import { ClientContextType } from '../@types/clientContextType'
-import moment from 'moment'
-import Modal from '@mui/material/Modal'
+import React from 'react'
+import { Box, Button,  Typography } from '@mui/material'
+import { ClientContextType, LogMessage } from '../@types/clientContextType'
 import Stack from '@mui/material/Stack'
-import { Guid } from 'guid-typescript'
 import { ClientContext } from '../context/clientContext'
-import axios from "axios";
-import CorporateFare from '@mui/icons-material/CorporateFare';
+import axios, { AxiosRequestConfig } from "axios";
+import style from '../@types/panelStyle'
+import CorporateFare from '@mui/icons-material/CorporateFare'
 
 export default function RegisterOrganization() {
     const [fileName, setFileName] = React.useState<string>();
-    const { loading, setLoading, error, setError, onMintToken, openRegisterOrganization, setOpenRegisterOrganization } = React.useContext(ClientContext) as ClientContextType
-    const style = {
-        position: 'absolute' as 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 500,
-        color: 'white',
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-    };
+    const { LogMessage, setLoading} = React.useContext(ClientContext) as ClientContextType
 
     const handleFileClick = (e: React.SyntheticEvent) => {
         const inputFile: any = e.target as any;
@@ -36,46 +21,39 @@ export default function RegisterOrganization() {
     const handleSubmission = (e: React.SyntheticEvent) => {
         e.preventDefault()
         const target = e.target as typeof e.target & {
-            organization: { value: string }
-            owner: { value: string }
-            fileFormat: { value: string }
-            fileName: { value: string }
             file: { naame: string, files: any }
         }
-
-        const nftContent: any =
-        {
-            channel: 'mychannel',
-            name: 'erc721',
-            organization: target.organization.value,
-            userId: target.owner.value,
-            params:
-            {
-                FileFormat: target.fileFormat.value,
-                Owner: target.owner.value,
-                Organization: target.organization.value,
-                FileName: target.fileName.value
-            },
-        };
-
-        var newFiles = target.file.files;
-        var filesArr = Array.prototype.slice.call(newFiles);
-        const fl = filesArr[0] as File;
+        const files = target.file.files as FileList
+        const fl = files[0] as File;
         var reader = new FileReader();
+        const config : AxiosRequestConfig = {
+            maxBodyLength: Number(process.env.REACT_APP_MAX_FILE_SIZE),
+            maxContentLength: Number(process.env.REACT_APP_MAX_FILE_SIZE),
+            baseURL: process.env.BASE_URL as string,
+            headers: {
+                'Accept':'*/*',
+                'Content-type': 'application/json',
+            }
+        }
         reader.onload = function (e: any) {
-            nftContent.data = e.target.result;
-            console.log(nftContent);
-            axios.post("http://localhost:3556/admin/register", nftContent)
-                .then((response) => {
-                    console.log(response);
-                }
-                ).catch((reason: any) => {
-                    console.log(reason);
-                });
+            setLoading(true)
+            axios.post(
+                'admin/register',
+                e.target.result,
+                config
+            )
+            .then((response) => {
+                LogMessage(response.data, 'success')
+            }
+            ).catch((reason: any) => {
+                LogMessage(reason, 'error')
+            }).finally(() => {
+                setLoading(false)
+            });
         };
         reader.onerror = function (e) {
             // error occurred
-            console.log('Error : ' + e.type);
+            LogMessage(e.type, 'error')
         };
         reader.readAsBinaryString(fl);
     }
@@ -97,9 +75,7 @@ export default function RegisterOrganization() {
                 <Stack direction="row" alignItems="baseline">
                     <label className="custom-file-upload">
                         <input type="file" name="file" multiple={false} onChange={(e: any) => { handleFileClick(e) }} />
-                        <Typography color='white'>
-                            Select file...
-                        </Typography>
+                        <Typography color='white'>...</Typography>
                     </label>
                     <Typography> </Typography>
                     <Typography>{fileName}</Typography>

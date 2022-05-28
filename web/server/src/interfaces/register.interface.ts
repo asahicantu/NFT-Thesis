@@ -1,3 +1,4 @@
+import User from '../../../common/user'
 interface ConfigElement{
   name:string,
   url:string,
@@ -8,11 +9,7 @@ interface PeerElement extends ConfigElement{
   walletUrl : string
 }
 
-interface User{
-  organization:string,
-  name:string,
-  affilitation:string
-}
+
 
 interface ConfigSet{
     _id:string,
@@ -21,4 +18,4 @@ interface ConfigSet{
     authorities:ConfigElement[]
 }
 
-export {ConfigElement,PeerElement, User, ConfigSet};
+export {ConfigElement,PeerElement, User, ConfigSet}

@@ -10,15 +10,19 @@ import { ClientContext } from '../context/clientContext'
 import axios from "axios";
 import MintNFT from './MintNFT'
 import RegisterOrganization from './RegisterOrganization'
+import EnrollUser from './EnrollUser'
 import Main from './Main'
 
 export default function Content() {
-    const {openMain, openRegisterOrganization, openMintNFT } = React.useContext(ClientContext) as ClientContextType
+    const {openMain, openRegisterOrganization, openEnrollUser, openMintNFT } = React.useContext(ClientContext) as ClientContextType
     if(openMain){
         return (<Main/>)
     }
     if(openRegisterOrganization){
         return (<RegisterOrganization />)
+    }
+    if(openEnrollUser){
+        return(<EnrollUser/>)
     }
     if(openMintNFT){
         return(<MintNFT/>)

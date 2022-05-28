@@ -33,8 +33,8 @@ class AdminRouter {
         const authorityConfig = config.certificateAuthorities[certificateAuthority]
         const caClient = this.adminService.buildCAClient(authorityConfig)
         const wallet = await this.adminService.buildWallet(undefined, walletUrl)
-        await this.adminService.enrollAdmin(caClient, wallet, config.organizations[orgId].mspid)
-        res.json(`Organization ${orgId} registered successfully`)
+        const msg = await this.adminService.enrollAdmin(caClient, wallet, config.organizations[orgId].mspid)
+        res.json(msg)
       }
       catch (error) {
         next(error)
@@ -42,6 +42,7 @@ class AdminRouter {
     })
 
     this.router.post('/enroll', async (req, res, next) => {
+      console.log(req.body)
       const user = req.body as User
       const orgId = user.organization
       const config = await this.dbService.GetConfig(orgId)

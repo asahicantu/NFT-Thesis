@@ -38,29 +38,21 @@ export default function Header() {
     }
 
     const handleNavMenu = (key: string) => {
+        setOpenMain(false)
+        setOpenRegisterOrganization(false)
+        setOpenEnrollUser(false)
+        setOpenMintNFT(false)
         switch (key) {
             case 'MAIN':
-                setOpenMain(true)
-                setOpenRegisterOrganization(false)
-                setOpenEnrollUser(false)
-                setOpenMintNFT(false)
+                setOpenMain(false)
                 break
             case 'REGISTER':
-                setOpenMain(false)
                 setOpenRegisterOrganization(true)
-                setOpenEnrollUser(false)
-                setOpenMintNFT(false)
                 break
             case 'ENROLL':
-                setOpenMain(false)
-                setOpenRegisterOrganization(false)
                 setOpenEnrollUser(true)
-                setOpenMintNFT(false)
                 break
             case 'MINT':
-                setOpenMain(false)
-                setOpenRegisterOrganization(false)
-                setOpenEnrollUser(false)
                 setOpenMintNFT(true)
                 break
         }

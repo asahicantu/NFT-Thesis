@@ -49,15 +49,10 @@ app.get('/', (request: express.Request, response: express.Response) => {
   console.log('calling root')
   response.send('Hyperledger NFT Backend')
 })
-
-
 routerApi(app,rootApi)
-
-
 app.use(logErrors)
 app.use(boomErrorHandler)
 app.use(errorHandler)
-
 app.listen(port, () => {
   const ip_address: string = ip.address()
   console.log(`Application is listening on port: http://${ip_address}:${port}${rootApi}`)
