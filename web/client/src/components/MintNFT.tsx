@@ -24,8 +24,7 @@ export default function MintNFT() {
             organization: { value: string }
             owner: { value: string }
             fileFormat: { value: string }
-            fileName: { value: string }
-            file: { naame: string, files: any }
+            file: { name: string, files: any }
         }
 
         const nftContent: any =
@@ -39,7 +38,7 @@ export default function MintNFT() {
                 FileFormat: target.fileFormat.value,
                 Owner: target.owner.value,
                 Organization: target.organization.value,
-                FileName: target.fileName.value
+                FileName: fileName
             },
         };
 
@@ -47,6 +46,7 @@ export default function MintNFT() {
         var filesArr = Array.prototype.slice.call(newFiles);
         const fl = filesArr[0] as File;
         var reader = new FileReader();
+        setLoading(true)
         reader.onload = function (e: any) {
             nftContent.data = e.target.result;
             console.log(nftContent);
@@ -64,11 +64,14 @@ export default function MintNFT() {
             }
             ).catch((reason: any) => {
                 console.log(reason);
+            }).finally(()=>{
+                setLoading(false)
             });
         };
         reader.onerror = function (e) {
             // error occurred
             console.log('Error : ' + e.type);
+            setLoading(false)
         };
         reader.readAsBinaryString(fl);
     }
