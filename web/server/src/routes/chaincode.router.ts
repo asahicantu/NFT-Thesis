@@ -4,11 +4,11 @@ import ChaincodeService from '../services/chaincode.service'
 var _ = require('underscore')
 import validatorHandler from '../middlewares/validator.handler'
 import ConnectionParams from 'interfaces/connectionParams.interface'
-import Chaincode from 'interfaces/NFT.interface'
+import Chaincode from '../../../common/Chaincode'
 import AdminService from '../services/admin.service'
 import DbService from '../services/db.service'
 import IPFSService from '../services/ipfs.service'
-import { NFT, NFTExtended } from '../../../common/nft'
+import { NFT } from '../../../common/nft'
 const { getChaincodeEventsSchema } = require('../schemas/hyperledger.schemas')
 
 class ChaincodeRouter {
@@ -75,8 +75,9 @@ class ChaincodeRouter {
       }
     })
 
-    this.router.get('/chaincode', async (req, res, next) => {
+    this.router.post('/chaincode', async (req, res, next) => {
       try {
+        console.log(req.body)
         const cc = req.body as Chaincode
         const orgId = cc.organization
         let config = await this.dbService.GetConfig(orgId)

@@ -4,24 +4,29 @@ import *  as Nano from 'nano'
 class DBService {
   nano: Nano.ServerScope
   db: Nano.DocumentScope<unknown>
+  dbname:string
   constructor() {
     const port = process.env.SRV_DB_PORT as string
     const host = process.env.SRV_DB_URL as string
     const user = process.env.SRV_DB_USER_ID as string
     const pw = process.env.SRV_DB_USER_PW as string
     const url = `http://${user}:${pw}@${host}:${port}`
-    const dbname = process.env.SRV_DB_DBNAME as string
+    this.dbname = process.env.SRV_DB_DBNAME as string
     this.nano = Nano.default(url)
     //Build default database at runtime
+    this.tryCreateDB()
+  }
+
+  tryCreateDB(){
     this.nano.db.list()
       .then((dbs: string[]) => {
-        if (!dbs.includes(dbname)) {
-          console.log(`Database ${dbname} not exists, creating....`)
-          this.createDb(dbname)
+        if (!dbs.includes(this.dbname)) {
+          console.log(`Database ${this.dbname} not exists, creating....`)
+          this.createDb(this.dbname)
         }
       }).finally(() => {
-        this.db = this.nano.db.use(dbname)
-        console.log(`Database ${dbname} connected!`)
+        this.db = this.nano.db.use(this.dbname)
+        console.log(`Database ${this.dbname} connected!`)
       })
   }
 
@@ -43,11 +48,12 @@ class DBService {
 
   async registerOrg(configSet: object): Promise<Nano.DocumentInsertResponse | unknown> {
     try {
+      this.tryCreateDB()
       const response = await this.db.insert(configSet)
       return response
     }
     catch (error) {
-      return error
+      throw(error)
     }
   }
 

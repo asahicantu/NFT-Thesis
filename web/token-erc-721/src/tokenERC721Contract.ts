@@ -3,6 +3,7 @@ SPDX-License-Identifier: Apache-2.0
 */
 import { Context, Contract, Info, Transaction } from 'fabric-contract-api'
 import { NFT } from 'common/nft'
+import KV from './@types/KV'
 
 @Info({ title: 'TokenERC721Contract', description: 'ERC721 SmartContract, implemented in TypeScript' })
 export class TokenERC721Contract extends Contract {
@@ -305,23 +306,43 @@ export class TokenERC721Contract extends Contract {
     * @returns {Array<any>>} The number of non-fungible tokens owned by the owner, possibly zero
     */
     @Transaction(false)
-    public async Tokens(ctx:Context, owner: string): Promise<Array<any>> {
-        let tokens = new Array<any>()
+    public async Tokens(ctx:Context, owner: string): Promise<Array<NFT>> {
+        let tokens = new Array<NFT>()
         // There is a key record for every non-fungible token in the format of balancePrefix.owner.tokenId.
         // TokensOf() queries for all records matching balancePrefix.owner.* and returns all of them
         const iterator = await ctx.stub.getStateByPartialCompositeKey(this.balancePrefix, [owner])
         let result = await iterator.next()
-        ctx.logger.getLogger().log('INFO', 'Look at me!')
         while (!result.done) {
             //const nft = result
             //nfts.push(result.value)
-            ctx.logger.getLogger().log('INFO', result.value)
-            console.log(result.value)
-            tokens.push(result.value)
+            //ctx.logger.getLogger().log('INFO', result.value)
+            //console.log(result.value)
+            var val = result.value as KV
+            const nftKey = ctx.stub.createCompositeKey(this.balancePrefix, [owner])
+            var id = val.key.replace(nftKey,'')
+            id = id.replace(/\u0000/g, '')
+            let nft = await this._readNFT(ctx, id)
+            tokens.push(nft)
             result = await iterator.next()
         }
         return tokens
     }
+
+    @Transaction(false)
+    public async TokenIds(ctx: Context, owner: string): Promise<Array<string>> {
+        let tokenIds = new Array<string>()
+        // There is a key record for every non-fungible token in the format of balancePrefix.owner.tokenId.
+        // TokensOf() queries for all records matching balancePrefix.owner.* and returns all of them
+        const iterator = await ctx.stub.getStateByPartialCompositeKey(this.balancePrefix, [owner])
+        let result = await iterator.next()
+        while (!result.done) {
+            var val = result.value as KV
+            tokenIds.push(val.key)
+            result = await iterator.next()
+        }
+        return tokenIds
+    }
+
 
 
     @Transaction(true)
@@ -341,11 +362,11 @@ export class TokenERC721Contract extends Contract {
      * TotalSupply counts non-fungible tokens tracked by this contract.
      *
      * @param {Context} ctx the transaction context
-     * @returns {Number} Returns a count of valid non-fungible tokens tracked by this contract,
+     * @returns {Array<NFT>} Returns a count of valid non-fungible tokens tracked by this contract,
      * where each one of them has an assigned and queryable owner.
      */
     @Transaction(false)
-    public async TotalSupply(ctx: Context): Promise<any> {
+    public async TotalSupply(ctx: Context): Promise<Array<NFT>> {
         // There is a key record for every non-fungible token in the format of nftPrefix.tokenId.
         // TotalSupply() queries for and counts all records matching nftPrefix.*
         const iterator = await ctx.stub.getStateByPartialCompositeKey(this.nftPrefix, [])
@@ -354,7 +375,8 @@ export class TokenERC721Contract extends Contract {
         let result = await iterator.next()
         while (!result.done) {
             if (result.value) {
-                results.push(result.value)
+                var nft = JSON.parse(result.value.value.toString()) as NFT
+                results.push(nft)
             }
             result = await iterator.next()
         }

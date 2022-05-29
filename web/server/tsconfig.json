@@ -103,7 +103,7 @@
   },
   "include": [
     "src/**/*.ts"
-  ],
+, "../common/NFT.interface.ts"  ],
   "exclude": [
     "node_modules"
   ]
