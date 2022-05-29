@@ -15,10 +15,6 @@ function ClientProvider(props: { children: ReactNode }): ReactElement {
 
     const appName = 'HYP_NFT'
 
-    const onMintToken = () => {
-        //token data
-    }
-
     function LogMessage(message: any, type: AlertColor ){
         console.log(message)
         setSnackbarType(type)
@@ -35,7 +31,6 @@ function ClientProvider(props: { children: ReactNode }): ReactElement {
                 setLoading,
                 openMain,
                 setOpenMain,
-                onMintToken,
                 openMintNFT,
                 setOpenMintNFT,
                 openRegisterOrganization,

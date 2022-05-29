@@ -6,10 +6,12 @@ import { ClientContext } from '../context/clientContext'
 import axios, { AxiosRequestConfig } from "axios";
 import style from '../@types/panelStyle'
 import UploadFile from '@mui/icons-material/UploadFile';
+import { NFT } from '../../../common/nft'
+import MintedNFT from './MintedNFT'
 export default function MintNFT() {
     const [fileName, setFileName] = React.useState<string>();
-    const [nftToken, setNftToken] = React.useState<any>();
-    const { setLoading, onMintToken } = React.useContext(ClientContext) as ClientContextType
+    const [nftToken, setNftToken] = React.useState<NFT>();
+    const { setLoading } = React.useContext(ClientContext) as ClientContextType
 
     const handleFileClick = (e: React.SyntheticEvent) => {
         const inputFile: any = e.target as any;
@@ -60,7 +62,8 @@ export default function MintNFT() {
             axios.post('nft/mint', nftContent,config)
             .then((response) => {
                 console.log(response);
-                setNftToken(response.data);
+                const nft = response.data as NFT
+                setNftToken(nft);
             }
             ).catch((reason: any) => {
                 console.log(reason);
@@ -128,6 +131,7 @@ export default function MintNFT() {
                     <Typography>{fileName}</Typography>
                 </Stack>
                 <Button type="submit" variant="contained">Submit</Button>
+                <MintedNFT nftToken={nftToken}></MintedNFT>
             </Stack >
         </Box>
     )

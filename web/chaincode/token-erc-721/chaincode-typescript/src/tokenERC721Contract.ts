@@ -2,7 +2,7 @@
 SPDX-License-Identifier: Apache-2.0
 */
 import { Context, Contract, Info, Transaction } from 'fabric-contract-api'
-import { NFT, NFTExtended } from './nft'
+import { NFT, NFTExtended } from '../../../../common/nft'
 
 @Info({ title: 'TokenERC721Contract', description: 'ERC721 SmartContract, implemented in TypeScript' })
 export class TokenERC721Contract extends Contract {
@@ -392,7 +392,7 @@ export class TokenERC721Contract extends Contract {
     */
 
     @Transaction(true)
-    public async Mint(ctx: Context,id:string, uri: string, format: string, owner: string, ownerOrg: string, filename: string): Promise<object> {
+    public async Mint(ctx: Context, id: string, uri: string, format: string, owner: string, ownerOrg: string, filename: string): Promise<NFTExtended> {
 
         // Check minter authorization - this sample assumes Org1 is the issuer with privilege to mint a new token
         const clientMSPID = ctx.clientIdentity.getMSPID()
@@ -408,7 +408,7 @@ export class TokenERC721Contract extends Contract {
         }
         exists = await this._nftExistsByUri(ctx, uri)
         if(exists){
-            throw new Error(`The toekn with Uri ${uri} is already minted` )
+            throw new Error(`The token with Uri ${uri} is already minted` )
         }
         const nftToken: NFTExtended = {
             ID: id,

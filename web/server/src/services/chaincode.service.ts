@@ -9,9 +9,10 @@ import ConnectionParams from '../interfaces/connectionParams.interface'
 import { conflict } from 'boom'
 import { Gateway, GatewayOptions, Wallet, Wallets } from 'fabric-network'
 import { User, Client } from 'fabric-common'
-import { NFT } from '../../../chaincode/token-erc-721/chaincode-typescript/src/nft'
+import { NFT } from '../../../common/nft'
 import { json2array } from '../utils/ccUtils'
 import { Guid } from 'guid-typescript'
+import { object } from 'joi'
 
 class ChaincodeService {
   utf8Decoder: TextDecoder = new TextDecoder()
@@ -178,9 +179,7 @@ class ChaincodeService {
     return this.params
   }
 
-
-
-  async mint(config: Record<string, any>, wallet: Wallet, userId: string, channelName: string, chaincodeName: string, nftToken: NFT): Promise<any> {
+  async mint(config: Record<string, any>, wallet: Wallet, userId: string, channelName: string, chaincodeName: string, nftToken: NFT): Promise<NFT|undefined> {
     const gateway = new Gateway()
     const gatewayOpts: GatewayOptions = {
       wallet: wallet,
@@ -200,12 +199,17 @@ class ChaincodeService {
       console.log('Executing Chaincode...')
       console.log(nftToken)
       nftToken.ID = Guid.create().toString()
-      const result = await contract.submitTransaction('Mint', nftToken.ID, nftToken.URI, nftToken.FileFormat, nftToken.Owner, nftToken.Organization, nftToken.FileName)
-      console.log('*** Result: committed', result)
-      if (`${result}` !== '') {
-        return result
+      if(nftToken.URI && nftToken.FileFormat && nftToken.Owner && nftToken.Organization && nftToken.FileName){
+        const result = await contract.submitTransaction('Mint', nftToken.ID, nftToken.URI, nftToken.FileFormat, nftToken.Owner, nftToken.Organization, nftToken.FileName)
+        if (`${result}` !== '') {
+          const nftResult: NFT = JSON.parse(result.toString())
+          console.log('*** Result: committed', nftResult)
+          return nftResult
+        }
       }
-      return 'ok'
+      else{
+        throw ('Missing parameters for nft token ' + nftToken)
+      }
     }
     catch (error) {
       throw (error)

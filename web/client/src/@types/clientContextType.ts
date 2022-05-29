@@ -1,11 +1,10 @@
 import { AlertColor } from '@mui/material'
-import React, { Dispatch, SetStateAction } from 'react'
+import  { Dispatch, SetStateAction } from 'react'
 type LogMessage = (message: any, messageType: AlertColor) => void;
 type ClientContextType = {
     appName: string,
     loading: boolean,
     setLoading: Dispatch<SetStateAction<boolean>>
-    onMintToken(): void,
     openMain: boolean,
     setOpenMain: Dispatch<SetStateAction<boolean>>,
     openMintNFT: boolean,

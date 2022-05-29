@@ -29,7 +29,7 @@ export default function RegisterOrganization() {
         const config : AxiosRequestConfig = {
             maxBodyLength: Number(process.env.REACT_APP_MAX_FILE_SIZE),
             maxContentLength: Number(process.env.REACT_APP_MAX_FILE_SIZE),
-            baseURL: process.env.BASE_URL as string,
+            baseURL: process.env.REACT_APP_BASE_URL as string,
             headers: {
                 'Accept':'*/*',
                 'Content-type': 'application/json',
@@ -77,7 +77,6 @@ export default function RegisterOrganization() {
                         <input type="file" name="file" multiple={false} onChange={(e: any) => { handleFileClick(e) }} />
                         <Typography color='white'>...</Typography>
                     </label>
-                    <Typography> </Typography>
                     <Typography>{fileName}</Typography>
                 </Stack>
                 <Button type="submit" variant="contained">Submit</Button>

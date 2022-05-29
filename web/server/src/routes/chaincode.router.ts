@@ -8,7 +8,7 @@ import Chaincode from 'interfaces/NFT.interface'
 import AdminService from '../services/admin.service'
 import DbService from '../services/db.service'
 import IPFSService from '../services/ipfs.service'
-import { NFT } from '../../../chaincode/token-erc-721/chaincode-typescript/src/nft'
+import { NFT, NFTExtended } from '../../../common/nft'
 const { getChaincodeEventsSchema } = require('../schemas/hyperledger.schemas')
 
 class ChaincodeRouter {
@@ -62,7 +62,7 @@ class ChaincodeRouter {
         const nftToken : NFT = <NFT>chaincode.params
         const data = req.body.data as string
         console.log('Generating IPFS File...')
-        const ipfsResult = await this.ipfsService.addFile(nftToken.FileName,data)
+        const ipfsResult = await this.ipfsService.addFile(nftToken.FileName!,data)
         console.log(ipfsResult)
         nftToken.URI = ipfsResult.cid.toString()
         console.log(nftToken)
