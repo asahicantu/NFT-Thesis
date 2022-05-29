@@ -7,11 +7,11 @@ if [ "$1" == "start" ]; then
     ./scripts/start.sh
     ./scripts/ipfs.sh
     chaincodeName="erc721"
-    ./scripts/deployCC.sh $CHANNEL_NAME $chaincodeName "../web/chaincode/token-erc-721/chaincode-typescript" "typescript" "1.0" "1"
+    ./scripts/deployCC.sh $CHANNEL_NAME $chaincodeName "../web/token-erc-721" "typescript" "1.0" "1"
 elif [ "$1" == "deployCC" ]; then
     infoln "Deploying chaincode"
     chaincodeName="erc721"
-    ./scripts/deployCC.sh $CHANNEL_NAME $chaincodeName "../web/chaincode/token-erc-721/chaincode-typescript" "typescript" "2.0" "2"
+    ./scripts/deployCC.sh $CHANNEL_NAME $chaincodeName "../web/token-erc-721" "typescript" "10" "10"
     #./network.sh deployCC -ccn erc1155 -ccp ../token-erc-1155/chaincode-go/ -ccl go
     #./scripts/deployCC.sh $CHANNEL_NAME $CC_NAME $CC_SRC_PATH $CC_SRC_LANGUAGE $CC_VERSION $CC_SEQUENCE $CC_INIT_FCN $CC_INVK_FCN $CC_END_POLICY $CC_COLL_CONFIG $CLI_DELAY $MAX_RETRY $VERBOSE
     #./network.sh deployCC -ccn basic -ccp ../chaincode/token-erc-20/chaincode-go -ccl go

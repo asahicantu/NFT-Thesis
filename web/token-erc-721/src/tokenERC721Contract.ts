@@ -2,7 +2,7 @@
 SPDX-License-Identifier: Apache-2.0
 */
 import { Context, Contract, Info, Transaction } from 'fabric-contract-api'
-import { NFT, NFTExtended } from '../../../../common/nft'
+import { NFT } from 'common/nft'
 
 @Info({ title: 'TokenERC721Contract', description: 'ERC721 SmartContract, implemented in TypeScript' })
 export class TokenERC721Contract extends Contract {
@@ -17,6 +17,11 @@ export class TokenERC721Contract extends Contract {
 
     constructor() {
         super('TokenERC721Contract')
+    }
+
+    @Transaction(false)
+    public async setLogLevel(ctx: Context, loglevel: string): Promise < void> {
+        const logger = ctx.logger.setLevel(loglevel)
     }
 
     /**
@@ -288,19 +293,39 @@ export class TokenERC721Contract extends Contract {
     }
 
     @Transaction(false)
-    public async Token(ctx: Context, tokenId: string): Promise<NFTExtended> {
+    public async Token(ctx: Context, tokenId: string): Promise<NFT> {
         const nft = await this._readNFT(ctx, tokenId)
         return nft
     }
-
+    /**
+    * Tokens returns all non-fungible tokens assigned to an owner
+    *
+    * @param {Context} ctx the transaction context
+    * @param {String} owner An owner for whom to query the balance
+    * @returns {Array<any>>} The number of non-fungible tokens owned by the owner, possibly zero
+    */
     @Transaction(false)
-    public async Tokens(ctx:Context, owner: string): Promise<Array<NFTExtended>> {
-        const tokens = new Array<NFTExtended>()
+    public async Tokens(ctx:Context, owner: string): Promise<Array<any>> {
+        let tokens = new Array<any>()
+        // There is a key record for every non-fungible token in the format of balancePrefix.owner.tokenId.
+        // TokensOf() queries for all records matching balancePrefix.owner.* and returns all of them
+        const iterator = await ctx.stub.getStateByPartialCompositeKey(this.balancePrefix, [owner])
+        let result = await iterator.next()
+        ctx.logger.getLogger().log('INFO', 'Look at me!')
+        while (!result.done) {
+            //const nft = result
+            //nfts.push(result.value)
+            ctx.logger.getLogger().log('INFO', result.value)
+            console.log(result.value)
+            tokens.push(result.value)
+            result = await iterator.next()
+        }
         return tokens
     }
 
+
     @Transaction(true)
-    public async Rate(ctx: Context, tokenId: string, organization: string,rank:string): Promise<NFTExtended> {
+    public async Rate(ctx: Context, tokenId: string, organization: string,rank:string): Promise<NFT> {
         const nft = await this._readNFT(ctx, tokenId)
         if (!nft.RankerOrganizations.includes(organization)) {
             nft.RankerOrganizations.push(organization)
@@ -392,7 +417,7 @@ export class TokenERC721Contract extends Contract {
     */
 
     @Transaction(true)
-    public async Mint(ctx: Context, id: string, uri: string, format: string, owner: string, ownerOrg: string, filename: string): Promise<NFTExtended> {
+    public async Mint(ctx: Context, id: string, uri: string, format: string, owner: string, ownerOrg: string, filename: string): Promise<NFT> {
 
         // Check minter authorization - this sample assumes Org1 is the issuer with privilege to mint a new token
         const clientMSPID = ctx.clientIdentity.getMSPID()
@@ -410,7 +435,7 @@ export class TokenERC721Contract extends Contract {
         if(exists){
             throw new Error(`The token with Uri ${uri} is already minted` )
         }
-        const nftToken: NFTExtended = {
+        const nftToken: NFT = {
             ID: id,
             URI: uri,
             FileFormat: format,
@@ -499,14 +524,14 @@ export class TokenERC721Contract extends Contract {
         return clientAccountID
     }
 
-    private async _readNFT(ctx: Context, tokenId: string): Promise<NFTExtended> {
+    private async _readNFT(ctx: Context, tokenId: string): Promise<NFT> {
         const nftKey = ctx.stub.createCompositeKey(this.nftPrefix, [tokenId])
         const nftBytes = await ctx.stub.getState(nftKey)
         if (!nftBytes || nftBytes.length === 0) {
             throw new Error(`The tokenId ${tokenId} is invalid. It does not exist`)
         }
         const nft = JSON.parse(nftBytes.toString())
-        return nft as NFTExtended
+        return nft as NFT
     }
 
     private async _nftExistsById(ctx: Context, tokenId: string): Promise<boolean> {

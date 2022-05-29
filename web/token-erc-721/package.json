@@ -13,6 +13,7 @@
         "pretest": "npm run lint",
         "test": "nyc mocha -r ts-node/register src/**/*.spec.ts",
         "start": "set -x && fabric-chaincode-node start",
+        "prebuild": "cp -f -r ../common node_modules",
         "build": "tsc",
         "docker": "docker build -f ./Dockerfile -t token-erc721 .",
         "package": "npm run build && npm shrinkwrap",

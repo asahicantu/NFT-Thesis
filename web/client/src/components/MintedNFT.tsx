@@ -6,13 +6,25 @@ import CardActions from '@mui/material/CardActions'
 import React from 'react'
 import { NFT } from '../../../common/nft'
 import { Button } from '@mui/material'
+import { ClientContextType } from '../@types/clientContextType'
+import { ClientContext } from '../context/clientContext'
 
 export default function NftCard(props: { nftToken: NFT | undefined }) {
+    const { LogMessage } = React.useContext(ClientContext) as ClientContextType
     const nftToken = props.nftToken
     if (!nftToken) {
         return <React.Fragment />
     }
-    console.log(nftToken.FileName)
+
+    const handleClick = () => {
+        if (nftToken && nftToken.URI) {
+            navigator.clipboard.writeText(nftToken.URI)
+            const url = `http://localhost:8080/#/ipfs/${nftToken.URI}`
+            window.open(url, '_blank', 'noopener, noreferrer')
+            LogMessage('Token URI has been copied to the clipboard','info')
+        }
+    }
+
     return (
         <Card sx={{ minWidth: 275 }}>
             <CardContent>
@@ -23,7 +35,7 @@ export default function NftCard(props: { nftToken: NFT | undefined }) {
             </CardContent>
             <CardActions>
                 <Typography variant="body2">IPFS-URI:</Typography>
-                <Button sx={{fontSize:12}}>
+                <Button sx={{ fontSize: 12 }} onClick={handleClick}>
                     {nftToken.URI}
                 </Button>
             </CardActions>

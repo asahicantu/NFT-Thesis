@@ -3,7 +3,7 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typo
 import { ClientContextType } from '../@types/clientContextType'
 import Stack from '@mui/material/Stack'
 import { ClientContext } from '../context/clientContext'
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import style from '../@types/panelStyle'
 import UploadFile from '@mui/icons-material/UploadFile';
 import { NFT } from '../../../common/nft'
@@ -11,7 +11,7 @@ import MintedNFT from './MintedNFT'
 export default function MintNFT() {
     const [fileName, setFileName] = React.useState<string>();
     const [nftToken, setNftToken] = React.useState<NFT>();
-    const { setLoading } = React.useContext(ClientContext) as ClientContextType
+    const { setLoading, LogMessage } = React.useContext(ClientContext) as ClientContextType
 
     const handleFileClick = (e: React.SyntheticEvent) => {
         const inputFile: any = e.target as any;
@@ -64,9 +64,15 @@ export default function MintNFT() {
                 console.log(response);
                 const nft = response.data as NFT
                 setNftToken(nft);
+                LogMessage('Token has been minted', 'success')
             }
-            ).catch((reason: any) => {
-                console.log(reason);
+            ).catch((error: AxiosError) => {
+                if (error && error.response && error.response.data){
+                    console.log(error);
+                    const messageData = error.response.data as any
+                    LogMessage(messageData.message,'error')
+                }
+
             }).finally(()=>{
                 setLoading(false)
             });
