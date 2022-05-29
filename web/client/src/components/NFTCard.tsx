@@ -9,7 +9,7 @@ import { Button } from '@mui/material'
 import { ClientContextType } from '../@types/clientContextType'
 import { ClientContext } from '../context/clientContext'
 
-export default function NftCard(props: { nftToken: NFT | undefined }) {
+export default function NFTCard(props: { nftToken: NFT | undefined }) {
     const { LogMessage } = React.useContext(ClientContext) as ClientContextType
     const nftToken = props.nftToken
     if (!nftToken) {
@@ -28,7 +28,6 @@ export default function NftCard(props: { nftToken: NFT | undefined }) {
     return (
         <Card sx={{ minWidth: 275 }}>
             <CardContent>
-                <Typography variant='h5'>NFT token Issued!</Typography>
                 <Typography variant="body1">File name: {nftToken.FileName}</Typography>
                 <Typography color="white" variant="body2">Data-Type:{nftToken.FileFormat}</Typography>
                 <Typography variant="body2">NFT-ID={nftToken.ID}</Typography>

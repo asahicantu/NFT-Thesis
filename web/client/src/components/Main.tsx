@@ -19,13 +19,16 @@ import CardContent from '@mui/material/CardContent';
 import { ClientContext } from '../context/clientContext';
 import { ClientContextType } from '../@types/clientContextType';
 import Box from '@mui/material/Box';
-
+import style from '../@types/panelStyle'
+import MenuIcon from '@mui/icons-material/Menu';
 
 export default function Main() {
 
     return (
-        <Box>
-            Main
+        <Box sx={style}>
+            <Typography>
+                Welcome! Select an option from the top left menu [<MenuIcon/>]
+            </Typography>
         </Box>
     )
 }

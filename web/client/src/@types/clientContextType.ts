@@ -9,6 +9,8 @@ type ClientContextType = {
     setOpenMain: Dispatch<SetStateAction<boolean>>,
     openMintNFT: boolean,
     setOpenMintNFT: Dispatch<SetStateAction<boolean>>,
+    openNFTTokens: boolean,
+    setOpenNFTTokens: Dispatch<SetStateAction<boolean>>,
     openRegisterOrganization: boolean,
     setOpenRegisterOrganization: Dispatch<SetStateAction<boolean>>,
     openEnrollUser: boolean,

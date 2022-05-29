@@ -7,6 +7,7 @@ function ClientProvider(props: { children: ReactNode }): ReactElement {
     const [loading, setLoading ] = React.useState(false)
     const [openMain, setOpenMain] = React.useState(false)
     const [openMintNFT, setOpenMintNFT] = React.useState(false)
+    const [openNFTTokens, setOpenNFTTokens] = React.useState(false)
     const [openRegisterOrganization, setOpenRegisterOrganization] = React.useState(false)
     const [openEnrollUser, setOpenEnrollUser] = React.useState(false)
     const [openSnackbar, setOpenSnackbar] = React.useState(false);
@@ -33,6 +34,8 @@ function ClientProvider(props: { children: ReactNode }): ReactElement {
                 setOpenMain,
                 openMintNFT,
                 setOpenMintNFT,
+                openNFTTokens,
+                setOpenNFTTokens,
                 openRegisterOrganization,
                 setOpenRegisterOrganization,
                 openEnrollUser,

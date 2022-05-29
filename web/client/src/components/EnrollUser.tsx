@@ -1,13 +1,9 @@
-import React, { ReactNode, Fragment } from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react'
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material'
 import { ClientContextType, LogMessage } from '../@types/clientContextType'
-import moment from 'moment'
-import Modal from '@mui/material/Modal'
 import Stack from '@mui/material/Stack'
-import { Guid } from 'guid-typescript'
 import { ClientContext } from '../context/clientContext'
-import axios, { AxiosRequestConfig } from "axios"
+import axios, { AxiosError, AxiosRequestConfig } from "axios"
 import { PersonAdd } from '@mui/icons-material'
 import style from '../@types/panelStyle'
 import User from '../../../common/user'
@@ -43,8 +39,15 @@ export default function EnrollUser() {
         )
         .then((response) => {
             LogMessage(response.data, 'success')
-        }).catch((reason: any) => {
-            LogMessage(reason, 'error')
+        }).catch((error: AxiosError) => {
+            if (error && error.response && error.response.data) {
+                console.log(error);
+                const messageData = error.response.data as any
+                LogMessage(messageData, 'error')
+            }
+            else{
+                LogMessage(error,'error')
+            }
         }).finally(() => {
             setLoading(false)
         });

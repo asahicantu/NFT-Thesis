@@ -12,9 +12,10 @@ import MintNFT from './MintNFT'
 import RegisterOrganization from './RegisterOrganization'
 import EnrollUser from './EnrollUser'
 import Main from './Main'
+import NFTTokens from './NFTTokens'
 
 export default function Content() {
-    const {openMain, openRegisterOrganization, openEnrollUser, openMintNFT } = React.useContext(ClientContext) as ClientContextType
+    const {openMain, openRegisterOrganization, openEnrollUser, openMintNFT,openNFTTokens } = React.useContext(ClientContext) as ClientContextType
     if(openMain){
         return (<Main/>)
     }
@@ -26,6 +27,9 @@ export default function Content() {
     }
     if(openMintNFT){
         return(<MintNFT/>)
+    }
+    if (openNFTTokens) {
+        return (<NFTTokens />)
     }
     return (<Main/>)
 }

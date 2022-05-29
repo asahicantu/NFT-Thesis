@@ -19,12 +19,13 @@ import { PersonAdd } from '@mui/icons-material';
 import Icon from "@material-ui/core/Icon";
 
 export default function Header() {
-    const { setOpenMain, setOpenRegisterOrganization, setOpenEnrollUser, setOpenMintNFT } = React.useContext(ClientContext) as ClientContextType
+    const { setOpenMain, setOpenRegisterOrganization, setOpenEnrollUser, setOpenMintNFT,setOpenNFTTokens } = React.useContext(ClientContext) as ClientContextType
     const pages: Array<KeyVal<string>> = [
         { Key: 'MAIN', Val: 'Main', Icon: CorporateFare },
         { Key: 'REGISTER', Val: 'Register Organization', Icon: CorporateFare },
         { Key: 'ENROLL', Val: 'Enroll User', Icon: PersonAdd },
-        { Key: 'MINT', Val: 'Mint NFT', Icon: UploadFile }
+        { Key: 'MINT', Val: 'Mint NFT', Icon: UploadFile },
+        { Key: 'TOKENS', Val: 'View Tokens', Icon: UploadFile }
     ]
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
@@ -42,6 +43,7 @@ export default function Header() {
         setOpenRegisterOrganization(false)
         setOpenEnrollUser(false)
         setOpenMintNFT(false)
+        setOpenNFTTokens(false)
         switch (key) {
             case 'MAIN':
                 setOpenMain(false)
@@ -55,14 +57,17 @@ export default function Header() {
             case 'MINT':
                 setOpenMintNFT(true)
                 break
+            case 'TOKENS':
+                setOpenNFTTokens(true)
+                break
+            default:
+                setOpenMain(true)
         }
         handleCloseNavMenu();
     }
-
-
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar position="fixed">
                 <Toolbar>
                     <Box>
                         <Tooltip title="Open to select an option">

@@ -28,6 +28,7 @@
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-scripts": "5.0.0",
+        "react-scrolling-panel": "^1.2.1",
         "styled-components": "^5.3.5",
         "typescript": "^4.6.2",
         "use-file-dialog": "^1.0.0",

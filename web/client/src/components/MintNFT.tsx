@@ -7,7 +7,7 @@ import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import style from '../@types/panelStyle'
 import UploadFile from '@mui/icons-material/UploadFile';
 import { NFT } from '../../../common/nft'
-import MintedNFT from './MintedNFT'
+import NFTCard from './NFTCard'
 export default function MintNFT() {
     const [fileName, setFileName] = React.useState<string>();
     const [nftToken, setNftToken] = React.useState<NFT>();
@@ -22,6 +22,7 @@ export default function MintNFT() {
     }
     const handleSubmission = (e: React.SyntheticEvent) => {
         e.preventDefault()
+        setNftToken(undefined)
         const target = e.target as typeof e.target & {
             organization: { value: string }
             owner: { value: string }
@@ -61,7 +62,6 @@ export default function MintNFT() {
             }
             axios.post('nft/mint', nftContent,config)
             .then((response) => {
-                console.log(response);
                 const nft = response.data as NFT
                 setNftToken(nft);
                 LogMessage('Token has been minted', 'success')
@@ -72,7 +72,6 @@ export default function MintNFT() {
                     const messageData = error.response.data as any
                     LogMessage(messageData.message,'error')
                 }
-
             }).finally(()=>{
                 setLoading(false)
             });
@@ -137,7 +136,7 @@ export default function MintNFT() {
                     <Typography>{fileName}</Typography>
                 </Stack>
                 <Button type="submit" variant="contained">Submit</Button>
-                <MintedNFT nftToken={nftToken}></MintedNFT>
+                <NFTCard nftToken={nftToken}/>
             </Stack >
         </Box>
     )
