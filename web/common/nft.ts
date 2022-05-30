@@ -14,4 +14,4 @@ type NFT  = {
     RankerOrganizations?: string[]
 }
 
-export {NFT}
+export type {NFT}

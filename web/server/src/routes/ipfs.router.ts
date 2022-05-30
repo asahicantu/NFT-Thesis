@@ -7,7 +7,7 @@ import IPFSService from '../services/ipfs.service'
 import { ImportCandidateStream, IPFSPath, ToContent } from 'ipfs-core-types/src/utils'
 import { AddAllOptions, CatOptions, GetOptions, IDOptions, ListOptions } from 'ipfs-core-types/src/root'
 import { CID } from 'ipfs-http-client'
-
+import IPFSFile from '../../../common/IPFSFile'
 export default class IPFSRouter {
   router: express.Router
   ipfsService: IPFSService
@@ -46,6 +46,7 @@ export default class IPFSRouter {
       let options: CatOptions = req.body.options
       let content = await this.ipfsService.cat(path, options)
       res.json(content)
+      //res.json(content.map((f) => new TextDecoder().decode(f)))
     })
 
 
@@ -53,10 +54,10 @@ export default class IPFSRouter {
       let path = req.query.path as string
       if(true){
         let options : GetOptions = {
-          archive: true
         }
         let content = await this.ipfsService.get(path, options)
-        res.json(content)
+      const bf : IPFSFile ={files:content.map((f)=>f.toString())}
+        res.json(bf)
       }
     })
 

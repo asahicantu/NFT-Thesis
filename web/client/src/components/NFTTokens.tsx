@@ -60,7 +60,7 @@ export default function NFTTokens() {
         <Box sx={style} overflow="scroll">
             <Stack direction="column" spacing={1}>
                 {nftTokens.map((nft) => (
-                    <NFTCard nftToken={nft}></NFTCard>
+                    <NFTCard key={nft.ID!} nftToken={nft}></NFTCard>
                 ))}
             </Stack >
         </Box>
