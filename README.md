@@ -106,7 +106,8 @@ This process will take some minutes to finish running, what it does:
   5. IPFS nodes (Bootstrap, and 2 nodes for private network)
 ### 5. Run web application
 1. It is recommended to use two terminals and change to directory `cd web`
-2. Execute: `cd server && ./npm run start` this will execute ExpressJS Web Server
+2. Execute: `cd server && ./npm run dev` this will execute ExpressJS Web Server
+  2.1. Important to run this environment in dev mode to visualize logs and potential resistance to failures
 3. In the second terminal execute `cd client && ./npm run start` this will execute React Web App
 4. Navigate to the web application (localhost:3000) and select the option menu "Register Organizations"
   4.1. Register Organization 1 By selecting the file "network/organizations/peerOrganizations/org1.example.com/connection-org1.json"

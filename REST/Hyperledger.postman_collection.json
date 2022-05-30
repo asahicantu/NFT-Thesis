@@ -2,7 +2,8 @@
 	"info": {
 		"_postman_id": "2164d358-8155-4775-8eb1-cee96a579e42",
 		"name": "Hyperledger",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2368238"
 	},
 	"item": [
 		{
@@ -283,7 +284,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"params\":\r\n    {\r\n            \"id\": \"11\",\r\n            \"fileformat\": \"text\",\r\n            \"owner\": \"minter\",\r\n            \"organization\": \"Org1\",\r\n            \"filename\":\"hello.txt\"\r\n\r\n    },\r\n    \"data\":\"hello world\"\r\n}  ",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"params\":\r\n    {\r\n        \"FileFormat\": \"text\",\r\n        \"Owner\": \"minter\",\r\n        \"Organization\": \"Org1\",\r\n        \"FileName\":\"hello.txt\"\r\n    },\r\n    \"data\":\"hello world is there anybody in there\"\r\n}  ",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -304,11 +305,8 @@
 				},
 				{
 					"name": "TokenURI",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -333,11 +331,8 @@
 				},
 				{
 					"name": "Token",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -414,11 +409,8 @@
 				},
 				{
 					"name": "GetApproved",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -443,11 +435,8 @@
 				},
 				{
 					"name": "ClientAccountBalanceOrg1",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -472,11 +461,8 @@
 				},
 				{
 					"name": "ClientAccountBalanceOrg2",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -514,15 +500,12 @@
 							}
 						}
 					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"organization\": \"Org2\",\r\n    \"userId\":\"recipient\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"TotalSupply\",\r\n    \"params\":\r\n    {\r\n    }\r\n}  ",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"TotalSupply\",\r\n    \"params\":\r\n    {\r\n    }\r\n}  ",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -543,15 +526,64 @@
 				},
 				{
 					"name": "balance",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"BalanceOf\",\r\n    \"params\":\r\n    {\r\n        \"p1\":\"x509::/OU=org1/OU=client/OU=department1/CN=minter::/C=US/ST=North Carolina/L=Durham/O=org1.example.com/CN=ca.org1.example.com\"\r\n    }\r\n}  ",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"BalanceOf\",\r\n    \"params\":\r\n    {\r\n        \"p1\":\"x509::/OU=client/CN=admin::/C=US/ST=North Carolina/L=Durham/O=org1.example.com/CN=ca.org1.example.com\"\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Tokens",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"Tokens\",\r\n    \"params\":\r\n    {\r\n        \"p1\":\"x509::/OU=client/CN=admin::/C=US/ST=North Carolina/L=Durham/O=org1.example.com/CN=ca.org1.example.com\"\r\n    }\r\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{nftUrl}}/chaincode",
+							"host": [
+								"{{nftUrl}}"
+							],
+							"path": [
+								"chaincode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TokenIds",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"Org1\",\r\n    \"userId\":\"minter\",\r\n    \"channel\":\"mychannel\",\r\n    \"name\": \"erc721\",\r\n    \"functionName\":\"TokenIds\",\r\n    \"params\":\r\n    {\r\n        \"p1\":\"x509::/OU=client/CN=admin::/C=US/ST=North Carolina/L=Durham/O=org1.example.com/CN=ca.org1.example.com\"\r\n    }\r\n}  ",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -572,11 +604,8 @@
 				},
 				{
 					"name": "OwnerOf",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -601,11 +630,8 @@
 				},
 				{
 					"name": "GetApproved",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -630,11 +656,8 @@
 				},
 				{
 					"name": "Name",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -659,11 +682,8 @@
 				},
 				{
 					"name": "TotalSupplyCount",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -714,11 +734,8 @@
 				},
 				{
 					"name": "Symbol",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -743,11 +760,8 @@
 				},
 				{
 					"name": "GetAllResults",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -772,11 +786,8 @@
 				},
 				{
 					"name": "ReadAsset",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
