@@ -45,11 +45,12 @@ export default class IPFSRouter {
       let path = req.query.path as string
       let options: CatOptions = req.body.options
       let content = await this.ipfsService.cat(path, options)
-      res.json(content)
-      // let ipfsFile:IPFSFile = {
-      //   files: content.map((f) => new TextDecoder().decode(f))
-      // }
-      // res.json(ipfsFile)
+      let ipfsFile:IPFSFile = {
+        files: content.map((f) => new TextDecoder().decode(f))
+      }
+      var buffer = Buffer.concat(content)
+      console.log(new Uint8Array(buffer))
+      res.status(200).send(buffer)
     })
 
 

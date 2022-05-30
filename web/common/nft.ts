@@ -12,6 +12,7 @@ type NFT  = {
     Weight?: number
     ApprovedForTransfer?: string | object
     RankerOrganizations?: string[]
+    Date?:number
 }
 
 export type {NFT}

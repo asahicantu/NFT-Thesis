@@ -439,7 +439,7 @@ export class TokenERC721Contract extends Contract {
     */
 
     @Transaction(true)
-    public async Mint(ctx: Context, id: string, uri: string, format: string, owner: string, ownerOrg: string, filename: string): Promise<NFT> {
+    public async Mint(ctx: Context, id: string, uri: string, format: string, owner: string, ownerOrg: string, filename: string,date:number): Promise<NFT> {
 
         // Check minter authorization - this sample assumes Org1 is the issuer with privilege to mint a new token
         const clientMSPID = ctx.clientIdentity.getMSPID()
@@ -466,6 +466,7 @@ export class TokenERC721Contract extends Contract {
             FileName: filename,
             Weight: 0,
             ApprovedForTransfer: undefined,
+            Date:date,
             RankerOrganizations: []
         }
 

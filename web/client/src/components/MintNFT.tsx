@@ -8,6 +8,7 @@ import style from '../@types/panelStyle'
 import UploadFile from '@mui/icons-material/UploadFile';
 import { NFT } from '../../../common/nft'
 import NFTCard from './NFTCard'
+import moment from 'moment'
 export default function MintNFT() {
     const [fileName, setFileName] = React.useState<string>();
     const [nftToken, setNftToken] = React.useState<NFT>();
@@ -41,18 +42,26 @@ export default function MintNFT() {
                 FileFormat: target.fileFormat.value,
                 Owner: target.owner.value,
                 Organization: target.organization.value,
-                FileName: fileName
+                FileName: fileName,
+                Date: Date.now()
             },
         };
 
         var newFiles = target.file.files;
         var filesArr = Array.prototype.slice.call(newFiles);
+        if(!filesArr || filesArr.length === 0){
+            LogMessage('Must select a file first', 'info')
+            return
+        }
         const fl = filesArr[0] as File;
+        console.log(fl)
         var reader = new FileReader();
         setLoading(true)
         reader.onload = function (e: any) {
-            nftContent.data = e.target.result;
-            console.log(nftContent);
+            var data = Array.from(new Uint8Array(e.target.result))
+            nftContent.data = JSON.stringify(data)
+            console.log(nftContent.data)
+
             const config: AxiosRequestConfig = {
                 baseURL: process.env.REACT_APP_BASE_URL as string,
                 headers: {
@@ -81,7 +90,7 @@ export default function MintNFT() {
             console.log('Error : ' + e.type);
             setLoading(false)
         };
-        reader.readAsBinaryString(fl);
+        reader.readAsArrayBuffer(fl);
     }
     return (
         <Box sx={style}>

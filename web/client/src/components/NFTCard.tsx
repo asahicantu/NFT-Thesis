@@ -35,22 +35,28 @@ export default function NFTCard(props: { nftToken: NFT | undefined }) {
             baseURL: process.env.REACT_APP_BASE_URL as string,
             headers: {
                 'Accept': '*/*',
-                'Content-type': 'application/json',
+                //'Content-type': 'application/json',
             },
-            responseType :'blob',
+            responseType :'arraybuffer',
             maxBodyLength: Number(process.env.REACT_APP_MAX_FILE_SIZE),
             maxContentLength: Number(process.env.REACT_APP_MAX_FILE_SIZE),
         }
         try {
             const response = await axios.get(`ipfs/cat?path=${nft.URI}`, config)
-            console.log(response.data)
-            var blob = response.data as Blob
-            console.log(blob.toString())
+            // var buffer = response.data as ArrayBuffer
+            //var buffer = response.data as Buffer
             // const ipfsFiles = response.data as IPFSFile
             // const ipfsArray = ipfsFiles.files.join('')
             // console.log(ipfsArray)
-            // const fArray = new TextEncoder().encode(ipfsArray)
-            // console.log(fArray)
+            //console.log(response.data)
+           // console.log(new Uint8Array(await response.data.arrayBuffer()))
+            //console.log(new Uint8Array(response.data.arrayBuffer))
+            console.log(response.data)
+            var arr = new Uint8Array(response.data)
+            console.log(arr)
+            //const fArray = new TextEncoder().encode(response.data)
+            //console.log(fAr)
+            //console.log(fArray)
             // let bufferData: Uint8Array = new Uint8Array(response.data.length)
             // for(var i = 0;i< response.data.length;i++){
             //     for (var j = 0; j < response.data[i].data.length; j++) {
@@ -70,18 +76,19 @@ export default function NFTCard(props: { nftToken: NFT | undefined }) {
             //     buffers.concat(Buffer.from('s'))
             // }
             // const buffer = Buffer.concat(buffers)
-            // var blob = new Blob([new Uint8Array(bufferData)], {type: "octet/stream" })
-            var a = document.createElement("a");
-            document.body.appendChild(a);
-            a.style.display = "none"
-            //var blob = new Blob([fArray]),
-            var url = window.URL.createObjectURL(blob)
-            a.href = url
-            a.download = nft.FileName!
-            //a.click()
-            window.URL.revokeObjectURL(url)
+            // console.log(buffer.toString('utf8'))
+            // var a = document.createElement("a");
+            // document.body.appendChild(a);
+            // a.style.display = "none"
+            // //var blob = new Blob([fArray]),
+            // var url = window.URL.createObjectURL(response.data)
+            // a.href = url
+            // a.download = nft.FileName!
+            // a.click()
+            // window.URL.revokeObjectURL(url)
 
-            //FileSaver.saveAs(blob, nft.FileName)
+            var blob = new Blob([arr],{ type: 'application/octet-stream'})
+            FileSaver.saveAs(blob, nft.FileName)
         }
         catch (error) {
             LogMessage(error, 'error')
@@ -119,7 +126,7 @@ export default function NFTCard(props: { nftToken: NFT | undefined }) {
                 <Button sx={{ fontSize: 12 }} onClick={handleClick}>
                     {nftToken.URI}
                 </Button>
-                <Button startIcon={<Download />} color="primary" variant="contained" aria-label="download" onClick={() => { handleDownload(nftToken!) }}>Download</Button>
+                <Button startIcon={<Download />} color="primary" variant="contained" aria-label="download" onClick={() => {handleDownload(nftToken!) }}>Download</Button>
             </CardActions>
         </Card>
     )
