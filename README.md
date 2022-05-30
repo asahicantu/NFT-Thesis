@@ -108,4 +108,14 @@ This process will take some minutes to finish running, what it does:
 1. It is recommended to use two terminals and change to directory `cd web`
 2. Execute: `cd server && ./npm run start` this will execute ExpressJS Web Server
 3. In the second terminal execute `cd client && ./npm run start` this will execute React Web App
-4. Enroll Organization 1
+4. Navigate to the web application (localhost:3000) and select the option menu "Register Organizations"
+  4.1. Register Organization 1 By selecting the file "network/organizations/peerOrganizations/org1.example.com/connection-org1.json"
+  4.2. Register Organization 2 By selecting the file "network/organizations/peerOrganizations/org2.example.com/connection-org2.json"
+5. Select the option menu "Enroll User"
+  5.1. Select the organizstion that user will belong, user name (add 'minter' as a default option) and department (set 'deptartment1' as default option)
+  5.2 Submit the user enrollment proces. Repeat the process to add more users for both organization 1 and 2
+6. Select 'Mint NFT' Option to issue a new NFT.
+  6.1 In 'Organization' field set 'Org1', 'minter' as owner and select a file as follows:
+  ![MintNFT](resources/MintNFT.png)
+  6.2. Repeat the process to mint as any NFT as desired
+7. Use the menu 'View Tokens' to visualize issued NFTS residing on the IPFS Server

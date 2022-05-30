@@ -12,7 +12,7 @@ export default function App() {
     return (
         <ThemeProvider theme={theme}>
             <ClientProvider>
-                <Box sx={{ flexGrow: 1 }}>
+                <Box sx={{ margin:2}}>
                     <Header />
                     <Content/>
                     <Loader/>
