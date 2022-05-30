@@ -37,17 +37,29 @@ export default function NFTCard(props: { nftToken: NFT | undefined }) {
                 'Accept': '*/*',
                 'Content-type': 'application/json',
             },
+            responseType :'blob',
             maxBodyLength: Number(process.env.REACT_APP_MAX_FILE_SIZE),
             maxContentLength: Number(process.env.REACT_APP_MAX_FILE_SIZE),
         }
         try {
-            let bufferData: Array<number> = []
             const response = await axios.get(`ipfs/cat?path=${nft.URI}`, config)
-            for(var i = 0;i< response.data.length;i++){
-                bufferData = bufferData.concat(response.data[i].data)
-            }
-            console.log(bufferData)
-            const buffer = Buffer.from(bufferData)
+            console.log(response.data)
+            var blob = response.data as Blob
+            console.log(blob.toString())
+            // const ipfsFiles = response.data as IPFSFile
+            // const ipfsArray = ipfsFiles.files.join('')
+            // console.log(ipfsArray)
+            // const fArray = new TextEncoder().encode(ipfsArray)
+            // console.log(fArray)
+            // let bufferData: Uint8Array = new Uint8Array(response.data.length)
+            // for(var i = 0;i< response.data.length;i++){
+            //     for (var j = 0; j < response.data[i].data.length; j++) {
+            //         bufferData[i] = response.data[i].data[j]
+            //     }
+            // }
+            // console.log(response.data.length)
+            // console.log(bufferData)
+            // const buffer = Buffer.from(bufferData)
             // console.log(buffer)
             // const ipfsFile: any = response.data.files as Array<any>
             // var buffers: Array<Buffer> = []
@@ -58,9 +70,18 @@ export default function NFTCard(props: { nftToken: NFT | undefined }) {
             //     buffers.concat(Buffer.from('s'))
             // }
             // const buffer = Buffer.concat(buffers)
-            var blob = new Blob([new Uint8Array(bufferData)], { type: "text/plain;charset=utf-8" })
-            var opt:FileSaverOptions = {autoBom:false}
-            FileSaver.saveAs(blob, nft.FileName, opt)
+            // var blob = new Blob([new Uint8Array(bufferData)], {type: "octet/stream" })
+            var a = document.createElement("a");
+            document.body.appendChild(a);
+            a.style.display = "none"
+            //var blob = new Blob([fArray]),
+            var url = window.URL.createObjectURL(blob)
+            a.href = url
+            a.download = nft.FileName!
+            //a.click()
+            window.URL.revokeObjectURL(url)
+
+            //FileSaver.saveAs(blob, nft.FileName)
         }
         catch (error) {
             LogMessage(error, 'error')
