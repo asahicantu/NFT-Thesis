@@ -35,7 +35,6 @@ export default function NFTCard(props: { nftToken: NFT | undefined }) {
             baseURL: process.env.REACT_APP_BASE_URL as string,
             headers: {
                 'Accept': '*/*',
-                //'Content-type': 'application/json',
             },
             responseType :'arraybuffer',
             maxBodyLength: Number(process.env.REACT_APP_MAX_FILE_SIZE),
@@ -43,50 +42,8 @@ export default function NFTCard(props: { nftToken: NFT | undefined }) {
         }
         try {
             const response = await axios.get(`ipfs/cat?path=${nft.URI}`, config)
-            // var buffer = response.data as ArrayBuffer
-            //var buffer = response.data as Buffer
-            // const ipfsFiles = response.data as IPFSFile
-            // const ipfsArray = ipfsFiles.files.join('')
-            // console.log(ipfsArray)
-            //console.log(response.data)
-           // console.log(new Uint8Array(await response.data.arrayBuffer()))
-            //console.log(new Uint8Array(response.data.arrayBuffer))
             console.log(response.data)
             var arr = new Uint8Array(response.data)
-            console.log(arr)
-            //const fArray = new TextEncoder().encode(response.data)
-            //console.log(fAr)
-            //console.log(fArray)
-            // let bufferData: Uint8Array = new Uint8Array(response.data.length)
-            // for(var i = 0;i< response.data.length;i++){
-            //     for (var j = 0; j < response.data[i].data.length; j++) {
-            //         bufferData[i] = response.data[i].data[j]
-            //     }
-            // }
-            // console.log(response.data.length)
-            // console.log(bufferData)
-            // const buffer = Buffer.from(bufferData)
-            // console.log(buffer)
-            // const ipfsFile: any = response.data.files as Array<any>
-            // var buffers: Array<Buffer> = []
-            // console.log(buffers)
-            // for (var i = 0; i < ipfsFile.length; i++) {
-            //     const b = Buffer.from( ipfsFile[i].data)
-            //     console.log(b)
-            //     buffers.concat(Buffer.from('s'))
-            // }
-            // const buffer = Buffer.concat(buffers)
-            // console.log(buffer.toString('utf8'))
-            // var a = document.createElement("a");
-            // document.body.appendChild(a);
-            // a.style.display = "none"
-            // //var blob = new Blob([fArray]),
-            // var url = window.URL.createObjectURL(response.data)
-            // a.href = url
-            // a.download = nft.FileName!
-            // a.click()
-            // window.URL.revokeObjectURL(url)
-
             var blob = new Blob([arr],{ type: 'application/octet-stream'})
             FileSaver.saveAs(blob, nft.FileName)
         }
@@ -96,28 +53,13 @@ export default function NFTCard(props: { nftToken: NFT | undefined }) {
         finally {
             setLoading(false)
         }
-
-        // .then((response) => {
-        //     const ipfsFile = response.data as IPFSFile
-        //     console.log(response.data)
-
-        //     LogMessage('File has been saved in ', 'success')
-        // }
-        // ).catch((error: AxiosError) => {
-        //     if (error && error.response && error.response.data) {
-        //         console.log(error);
-        //         const messageData = error.response.data as any
-        //         LogMessage(messageData.message, 'error')
-        //     }
-        // }).finally(() => {
-        //     setLoading(false)
-        // });
     }
 
     return (
         <Card sx={{ minWidth: 275 }}>
             <CardContent>
                 <Typography variant="body1">File name: {nftToken.FileName}</Typography>
+                <Typography variant="body2">Date:{new Date(nftToken.Date!).toDateString()}</Typography>
                 <Typography color="white" variant="body2">Data-Type:{nftToken.FileFormat}</Typography>
                 <Typography variant="body2">NFT-ID={nftToken.ID}</Typography>
             </CardContent>

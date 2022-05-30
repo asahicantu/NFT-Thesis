@@ -1,4 +1,5 @@
 # NFT as a proof of Digital Ownership-reward system integrated to a Secure Distributed Computing system Managed by Blockchain
+![Demo](resources/Demo.gif)
 
 ## Summary
 This is a Thesis project for my masters degree in Data Science provided by University of Stavanger.
