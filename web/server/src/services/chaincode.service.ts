@@ -200,7 +200,7 @@ class ChaincodeService {
       console.log(nftToken)
       nftToken.ID = Guid.create().toString()
       if(nftToken.URI && nftToken.FileFormat && nftToken.Owner && nftToken.Organization && nftToken.FileName){
-        const result = await contract.submitTransaction('Mint', nftToken.ID, nftToken.URI, nftToken.FileFormat, nftToken.Owner, nftToken.Organization, nftToken.FileName, nftToken.Date)
+        const result = await contract.submitTransaction('Mint', nftToken.ID, nftToken.URI, nftToken.FileFormat, nftToken.Owner, nftToken.Organization, nftToken.FileName, nftToken.Date!.toString())
         if (`${result}` !== '') {
           const nftResult: NFT = JSON.parse(result.toString())
           console.log('*** Result: committed', nftResult)
