@@ -32,7 +32,7 @@ class DBService {
 
   async createDb(dbName: string): Promise<Nano.DatabaseCreateResponse | string> {
     try {
-      console.log(`Datavase ${dbName} created`)
+      console.log(`Database ${dbName} created`)
       return await this.nano.db.create(dbName)
     }
     catch {

@@ -1,0 +1,18 @@
+%!TEX root = ../../main.tex
+\section{Distributed File systems and IPFS}
+\ac{DFS} Is a file system spread across multiple locations over a Network. This allows programs to access or store isolated files the same way as they do local ones, allowing them to access files from any network or computer.
+
+Using a Common File System, the \ac{DFS} makes it possible for users of physically distributed systems to share data and resources. For example, using a Local Area Network (LAN) to connect workstations and mainframes is a Distributed File System.
+The DFS consists of two components: 
+\begin{itemize}
+    \item Transparency of location is achieved through the namespace component. 
+    \item File replication provides redundancy.
+\end{itemize}
+
+This combination of components can improve data availability in the event of failure and heavy load by allowing data sharing across different locations to be logically grouped under one folder, which is called the DFS root. 
+Using both components of the \ac{DFS} architecture is not required; one can use the namespace component without using the file replication component, and one can use the file replication component without using the namespace component between servers.
+
+\subsection{The IPFS System}
+\ac{IPFS} is a peer-to-peer distributed file system designed to connect all computing devices through the same file system. In some ways, IPFS is similar to the Web. However, \ac{IPFS} could be viewed as a swarm of \emph{BitTorrent}\footnote{\input{Footnotes/BitTorrent}} peers exchanging objects within a single \emph{Git}\footnote{\input{Footnotes/GIT}} repository. Most commonly when navigating on the Web, data is requested and retrieved by its location (better known as location-based address), meaning that no matter the type or morphology of the data, it will be retrieved by the address where it exists. This implies that data can be amended, exchanged and even counterfeited. In contrast, \ac{IPFS} provides a content-addressed block storage model where instead of a hyperlink pointing to the location of an address,  a content-addressed hyperlink "knows" the content of the file that should be retrieved. The result is a \emph{Generalized Merkle Tree \ac{DAG}}\footnote{\input{Footnotes/MerkleDAG}}.\cite{benet2014ipfs}
+
+The \ac{IPFS} protocol combines a distributed hashtable, an incentive-based block exchange system, and a self-certifying namespace. In IPFS, there is no single point of failure, and nodes do not need to trust one another.
