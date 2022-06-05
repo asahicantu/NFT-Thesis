@@ -120,3 +120,12 @@ This process will take some minutes to finish running, what it does:
   ![MintNFT](resources/MintNFT.png)
   6.2. Repeat the process to mint as any NFT as desired
 7. Use the menu 'View Tokens' to visualize issued NFTS residing on the IPFS Server
+
+## Stopping the network or restarting the system
+To  ensure all files are removed after using the system it is recommended to run the following command with super user privileges:
+```bash
+cd network
+sudo ./network.sh stop
+```
+
+This will remove all running docker containers and  organization related connectivity profiles.
