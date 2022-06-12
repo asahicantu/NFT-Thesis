@@ -16,10 +16,10 @@ networks:
 
 services:
   couchdb_server:
-    container_name: couchdb_server
+    container_name: couchdb_server.example.com
     image: couchdb:3.2.1
     labels:
-      service: server-db
+      service: couchdb_server.example.com
     environment:
       - COUCHDB_USER=${FABRIC_USER_ADMIN}
       - COUCHDB_PASSWORD=${FABRIC_USER_ADMIN_PW}
@@ -28,10 +28,10 @@ services:
     networks:
       - test
   couchdb_org1:
-    container_name: couchdb_org1
+    container_name: couchdb.org1.example.com
     image: couchdb:3.2.1
     labels:
-      service: hyperledger-fabric
+      service: couchdb.org1.example.com
     # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
     # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
     environment:
@@ -44,10 +44,10 @@ services:
     networks:
       - test
   couchdb_org2:
-    container_name: couchdb_org2
+    container_name: couchdb.org2.example.com
     image: couchdb:3.2.1
     labels:
-      service: hyperledger-fabric
+      service: couchdb.org2.example.com
     # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
     # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
     environment:
@@ -63,7 +63,7 @@ services:
     container_name: orderer.example.com
     image: hyperledger/fabric-orderer:2.4
     labels:
-      service: hyperledger-fabric
+      service: orderer.example.com
     environment:
       - FABRIC_LOGGING_SPEC=INFO
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
@@ -105,7 +105,7 @@ services:
     container_name: peer0.org1.example.com
     image: hyperledger/fabric-peer:2.4
     labels:
-      service: hyperledger-fabric
+      service: peer0.org1.example.com
     environment:
       #- Fabric Env Vars
       - FABRIC_CFG_PATH=/etc/hyperledger/peercfg
@@ -159,7 +159,7 @@ services:
     container_name: peer0.org2.example.com
     image: hyperledger/fabric-peer:2.4
     labels:
-      service: hyperledger-fabric
+      service: peer0.org2.example.com
     environment:
       #- Fabric Env Vars
       - FABRIC_CFG_PATH=/etc/hyperledger/peercfg
@@ -210,10 +210,10 @@ services:
       - test
 
   cli:
-    container_name: cli
+    container_name: cli.example.com
     image: hyperledger/fabric-tools:2.4
     labels:
-      service: hyperledger-fabric
+      service: hyperledger-fabric-cli
     tty: true
     stdin_open: true
     environment:

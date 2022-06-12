@@ -1,0 +1,16 @@
+# Git Ignore file
+.idea/
+launch.json
+
+# No logs
+*.log
+/log
+
+# No mac files
+.DS_Store
+
+# Limited npm runtime artifacts
+node_modules/*
+package-lock.json
+
+**/__pycache__/**

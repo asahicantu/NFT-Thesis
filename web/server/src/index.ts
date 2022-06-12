@@ -42,8 +42,8 @@ function loggerMiddleware(request: express.Request, response: express.Response, 
 }
 const file_size = process.env.MAX_FILE_SIZE as string
 app.use(loggerMiddleware)
-app.use(express.json({ limit: file_size }))
-app.use(express.urlencoded({ limit: file_size }))
+app.use(express.json({ limit: '1000mb' }))
+app.use(express.urlencoded({ limit: '1000mb' }))
 app.get('/', (request: express.Request, response: express.Response) => {
   console.log('calling root')
   response.send('Hyperledger NFT Backend')

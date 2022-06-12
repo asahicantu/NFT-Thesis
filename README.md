@@ -1,4 +1,5 @@
 # NFT as a proof of Digital Ownership-reward system integrated to a Secure Distributed Computing system Managed by Blockchain
+*** Se video below for a quick demo and usage of the tool.
 ![Demo](resources/Demo.gif)
 
 ## Summary
@@ -129,3 +130,31 @@ sudo ./network.sh stop
 ```
 
 This will remove all running docker containers and  organization related connectivity profiles.
+
+
+## Bencharming with Hyperledger Caliper
+For the test and benchmark performances [Hyperledger Caliper](https://hyperledger.github.io/caliper/v0.5.0/getting-started/) was used.
+```bash
+ docker pull hyperledger/caliper:0.5.0
+ ```
+ ### Usage:
+ ```bash
+ docker run --rm hyperledger/caliper:0.5.0 -it bash calipper --version
+ ```
+
+ ## Running benchmarking with Hyperledger fabric
+ If additional statistics are desired to be run against the Fabric system it is recommended to use and follow the instructions provided by 
+ [Hyperlesdger Caliper](https://hyperledger.github.io/caliper/v0.2/installing-caliper/#installing-from-npm).
+ Copy all the contents from network/organizations into network/compose/caliper and run docker compose command.
+ ```bash
+ cd network
+ sudo cp -r organizations compose/caliper/ 
+ docker-compose -f docker-compose-caliper.yaml up
+ ```
+ 
+ ```bash
+ npm install --only=prod @hyperledger/caliper-cli@0.5.0
+ npx caliper bind --caliper-bind-sut fabric:2.2
+ npx caliper launch manager --caliper-workspace . --caliper-benchconfig scenarios/config.yaml --caliper-networkconfig networks/fabric/network-config.yaml
+ npx caliper launch manager --caliper-workspace ./ --caliper-networkconfig networks/fabric/test-network.yaml --caliper-benchconfig benchmarks/samples/fabric/fabcar/config.yaml --caliper-flow-only-test --caliper-fabric-gateway-enabled
+ ```

@@ -1,0 +1,27 @@
+test:
+  workers:
+    type: local
+    number: 5
+  rounds:
+    - label: MintNFT.
+      # 5000 transactions should create around 1000 cars per worker but not guaranteed
+      # so need to set asset limits to less than 1000 for the other tests
+      txNumber: 5000
+      rateControl:
+          type: fixed-load
+          opts:
+            transactionLoad: 5
+      workload:
+        module: benchmarks/samples/fabric/erc-721/mintNFT.js
+    - label: Query all NFTS.
+      txDuration: 30
+      rateControl:
+          type: fixed-load
+          opts:
+            transactionLoad: 5
+      workload:
+        module: benchmarks/samples/fabric/erc-721/queryAllNFTS.js
+        arguments:
+          assets: 500
+          startKey: '1'
+          endKey: '50'

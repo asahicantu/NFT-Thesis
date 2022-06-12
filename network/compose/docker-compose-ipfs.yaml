@@ -13,9 +13,7 @@ x-base: &base
 
 networks:
   test:
-    # name: ${COMPOSE_NETWORK_NAME}
-    name: test
-
+    name: ${COMPOSE_NETWORK_NAME}
 services:
   ipfs_bootstrap_node:
     container_name: ipfs_bootstrap_node
